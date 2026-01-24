@@ -1,32 +1,141 @@
-import Link from 'next/link';
+"use client";
+
+import Link from "next/link";
+// İkonları import edirik (Həm Fi, həm də Fa seriyasından)
+import { FiSearch, FiUser, FiShoppingCart, FiChevronDown, FiGrid, FiLayers, FiMail } from "react-icons/fi";
+import { FaChessKnight, FaDice, FaGamepad, FaPuzzlePiece, FaCar } from "react-icons/fa";
 
 const Header = () => {
     return (
-        <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-center h-16">
+        <header className="w-full">
+
+            {/* ----------------- 1. ÜST HİSSƏ (AĞ) ----------------- */}
+            <div className="bg-white py-5 border-b border-gray-200">
+                <div className="max-w-[1600px] mx-auto px-4 lg:px-8 flex items-center justify-between gap-4">
+
                     {/* Logo */}
-                    <Link href="/" className="text-2xl font-black text-blue-600">
-                        GAME<span className="text-gray-900">STORE</span>
+                    <Link href="/" className="flex-shrink-0">
+                        <h1 className="text-5xl font-black text-[#E60023] tracking-tighter font-serif">
+                            Game
+                        </h1>
                     </Link>
 
-                    {/* Menyu Linkləri */}
-                    <nav className="hidden md:flex space-x-8">
-                        <Link href="/" className="text-gray-600 hover:text-blue-600 font-medium">Ana Səhifə</Link>
-                        <Link href="/shop" className="text-gray-600 hover:text-blue-600 font-medium">Mağaza</Link>
-                        <Link href="/blog" className="text-gray-600 hover:text-blue-600 font-medium">Blog</Link>
-                        <Link href="/about" className="text-gray-600 hover:text-blue-600 font-medium">Haqqımızda</Link>
-                        <Link href="/contact" className="text-gray-600 hover:text-blue-600 font-medium">Əlaqə</Link>
-                    </nav>
+                    {/* Axtarış (Search) */}
+                    <div className="flex-1 max-w-2xl mx-8 hidden lg:block">
+                        <div className="flex items-center bg-gray-100 rounded-full p-1 pl-5">
+                            <FiSearch className="text-xl text-gray-500 mr-3" />
+                            <input
+                                type="text"
+                                placeholder="Search"
+                                className="bg-transparent w-full outline-none text-gray-700 placeholder-gray-500"
+                            />
+                            <button className="bg-[#E60023] text-white px-6 py-3 rounded-full font-bold text-sm flex items-center gap-2 hover:bg-red-700 transition whitespace-nowrap">
+                                All Collections
+                                <FiChevronDown />
+                            </button>
+                        </div>
+                    </div>
 
-                    {/* Sağ tərəf (Səbət və ya Giriş) */}
-                    <div className="flex items-center space-x-4">
-                        <Link href="/shop" className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-700">
-                            Alış-verişə Başla
-                        </Link>
+                    {/* Məlumat və Profillər */}
+                    <div className="flex items-center gap-6 text-sm">
+
+                        {/* İş Saatları */}
+                        <div className="hidden xl:flex flex-col text-right">
+                            <span className="font-bold text-gray-900 text-sm">Monday - Friday:</span>
+                            <span className="text-gray-600">8:00 AM - 9:00 PM</span>
+                        </div>
+
+                        {/* Dəstək */}
+                        <div className="hidden xl:flex flex-col text-right">
+                            <span className="text-gray-600">Support 24/7:</span>
+                            <span className="font-bold text-[#E60023] text-base">+12 002-224-111</span>
+                        </div>
+
+                        {/* Dil və Valyuta */}
+                        <div className="hidden md:flex items-center gap-3">
+                            <button className="flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-2 text-sm font-bold text-gray-700">
+                                USD <FiChevronDown />
+                            </button>
+                            <button className="flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-2 text-sm font-bold text-gray-700">
+                                English <FiChevronDown />
+                            </button>
+                        </div>
+
+                        {/* User və Səbət */}
+                        <div className="flex items-center gap-5 ml-2">
+                            <button className="text-3xl text-gray-600 hover:text-black">
+                                <FiUser />
+                            </button>
+
+                            <Link href="/cart" className="flex items-center gap-3 group">
+                                <div className="relative text-3xl text-gray-600 group-hover:text-black">
+                                    <FiShoppingCart />
+                                    <span className="absolute -top-2 -right-2 bg-[#E60023] text-white text-[10px] font-bold h-5 w-5 flex items-center justify-center rounded-full border-2 border-white">
+                                        2
+                                    </span>
+                                </div>
+                                <div className="hidden sm:block text-right leading-tight">
+                                    <span className="block text-xs text-gray-500 font-bold">My Cart:</span>
+                                    <span className="block text-sm font-black text-gray-900">$12,000.00</span>
+                                </div>
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            {/* ----------------- 2. ALT HİSSƏ (QIRMIZI NAVBAR) ----------------- */}
+            <div className="bg-[#E60023] text-white">
+                <div className="max-w-[1600px] mx-auto px-4 lg:px-8 h-14 flex items-center justify-between">
+
+                    {/* Sol Tərəf: Naviqasiya Linkləri */}
+                    <nav className="hidden lg:flex items-center gap-8 text-sm font-bold uppercase tracking-wide">
+
+                        <Link href="/blog" className="flex items-center gap-2 hover:text-black/80 transition">
+                            <FiGrid className="text-xl" />
+                            Blog
+                            <FiChevronDown />
+                        </Link>
+
+                        <Link href="/shop" className="flex items-center gap-2 hover:text-black/80 transition">
+                            <FaPuzzlePiece className="text-lg" />
+                            Shop All
+                            <FiChevronDown />
+                        </Link>
+
+                        <Link href="/about" className="flex items-center gap-2 hover:text-black/80 transition">
+                            <FaCar className="text-lg" />
+                            About Us
+                            <FiChevronDown />
+                        </Link>
+
+                        <Link href="/contact" className="flex items-center gap-2 hover:text-black/80 transition">
+                            <FaChessKnight className="text-lg" />
+                            Contact
+                            <FiChevronDown />
+                        </Link>
+
+                        <Link href="/faq" className="flex items-center gap-2 hover:text-black/80 transition">
+                            <FaDice className="text-lg" />
+                            FAQ
+                            <FiChevronDown />
+                        </Link>
+
+
+
+                    </nav>
+
+                    {/* Sağ Tərəf: Email */}
+                    <div className="flex items-center gap-2 font-semibold">
+                        <span className="opacity-90">Send Email:</span>
+                        <a href="mailto:contact@shop.com" className="flex items-center gap-2 text-white hover:underline text-lg font-bold">
+                            contact@shop.com
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
         </header>
     );
 };
