@@ -1,1 +1,9 @@
-<h1>amdin</h1>
+import React from 'react'
+
+const page = () => {
+    return (
+        <div>page</div>
+    )
+}
+
+export default page

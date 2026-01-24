@@ -1,29 +1,29 @@
-import type { Metadata } from "next";
+"use client";
+
 import { Inter } from "next/font/google";
+import { usePathname } from "next/navigation";
 import "./globals.css";
-import Header from "./components/Header"; // <-- Import et
-import Footer from "./components/Footer"; // <-- Import et
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "GameStore - Oyun Satış Saytı",
-  description: "Ən yeni oyunları bizdən alın",
-};
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+  const isAdminPage = pathname?.startsWith("/admin");
+
   return (
     <html lang="az">
       <body className={inter.className}>
-        <Header />             {/* Hər səhifənin başında olacaq */}
+        {!isAdminPage && <Header />}
         <main className="min-h-screen">
-          {children}           {/* Səhifələrin məzmunu bura düşür */}
+          {children}
         </main>
-        <Footer />             {/* Hər səhifənin sonunda olacaq */}
+        {!isAdminPage && <Footer />}
       </body>
     </html>
   );
