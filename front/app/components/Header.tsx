@@ -114,9 +114,9 @@ const Header = () => {
                                         <span className="text-sm font-bold hidden sm:inline text-gray-800">
                                             {user.name} {/* Adı burada görünür */}
                                         </span>
-                                        <FiChevronDown className="text-sm" />
+                                        <FiChevronDown className="text-sm text-black" />
                                     </button>
-                                    
+
                                     {/* Dropdown Menyu */}
                                     {showDropdown && (
                                         <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
@@ -124,7 +124,7 @@ const Header = () => {
                                                 <p className="text-sm font-bold text-gray-900">{user.name}</p>
                                                 <p className="text-xs text-gray-500 truncate">{user.email}</p>
                                             </div>
-                                            
+
                                             {/* Admin Panel Linki (Əgər admindirsə) */}
                                             {user.isAdmin && (
                                                 <Link href="/admin" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#E60023]">
@@ -135,7 +135,7 @@ const Header = () => {
                                             <Link href="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#E60023]">
                                                 Profilim
                                             </Link>
-                                            
+
                                             <button
                                                 onClick={handleLogout}
                                                 className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2 rounded-b-lg"
