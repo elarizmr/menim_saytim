@@ -1,26 +1,25 @@
 const express = require('express');
-const cors = require('cors');
+const cors = require('cors'); // Yalnız bir dəfə yazılmalıdır
 const path = require('path');
 const dotenv = require('dotenv');
-const cors = require('cors'); // Kitabxana çağırılır
 const connectDb = require('./config/db');
 const productRoutes = require('./routes/productRoutes');
 
+// Env faylını oxuyuruq
 dotenv.config({ path: path.join(__dirname, '.env') });
 
+// Verilənlər bazasına qoşuluruq
 connectDb();
 
 const app = express();
 const port = process.env.PORT || 5001;
 
-
-app.use(cors()); 
-
-
+// Middleware-lər
+app.use(cors()); // CORS icazəsi (yalnız bir dəfə)
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors());
 
+// Marşrutlar (Routes)
 app.use('/api/users', require('./routes/userRoutes')); 
 app.use('/api/products', productRoutes);
 
