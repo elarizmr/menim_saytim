@@ -270,7 +270,7 @@ const ShopPage = () => {
                                         <div className="relative overflow-hidden bg-neutral-900 border border-neutral-800 rounded-lg transition-all duration-300">
 
                                             {/* Image Area */}
-                                            <div className="relative aspect-square overflow-hidden bg-neutral-950">
+                                            <div className="relative  h-140 overflow-hidden bg-neutral-950">
                                                 <img
                                                     src={product.image}
                                                     alt={product.name}
@@ -296,9 +296,23 @@ const ShopPage = () => {
                                                     <p className="text-[12px] text-purple-400 font-bold uppercase tracking-widest">
                                                         {product.brand}
                                                     </p>
-                                                    <div className="flex items-center gap-1 text-yellow-500/80">
-                                                        <span className="text-sm">★</span>
-                                                        <span className="text-sm font-mono text-neutral-400">{product.rating}</span>
+                                                    <div className="flex flex-col items-end gap-1">
+                                                        <div className="flex items-center gap-0.5">
+                                                            {[...Array(5)].map((_, i) => (
+                                                                <span
+                                                                    key={i}
+                                                                    className={`text-xs ${i < Math.round(product.rating)
+                                                                            ? 'text-yellow-400'
+                                                                            : 'text-neutral-700'
+                                                                        }`}
+                                                                >
+                                                                    ★
+                                                                </span>
+                                                            ))}
+                                                        </div>
+                                                        <span className="text-[10px] font-mono text-neutral-500">
+                                                            {product.rating.toFixed(1)} ({product.numReviews})
+                                                        </span>
                                                     </div>
                                                 </div>
 
@@ -312,7 +326,7 @@ const ShopPage = () => {
                                                     </div>
 
                                                     {/* Fake "Add" Button Visual */}
-                                                    <div className="w-8 h-8 rounded-full border border-neutral-700 flex items-center justify-center text-neutral-400 hover:bg-white hover:text-black hover:border-white hover:rotate-z-90 transition-all">
+                                                    <div className="w-8 h-8 rounded-full border border-neutral-700 flex items-center justify-center text-neutral-400 hover:bg-white hover:text-black hover:border-white hover:rotate-z-180 duration-500 transition-all">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
                                                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                                                         </svg>
@@ -320,6 +334,7 @@ const ShopPage = () => {
                                                 </div>
                                             </div>
                                         </div>
+
                                     </Link>
                                 ))}
                             </div>
