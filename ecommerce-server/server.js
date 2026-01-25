@@ -1,7 +1,7 @@
 const path = require('path');
 const dotenv = require('dotenv');
 
-// 1. Env faylını EN BIRINCI oxuyuruq ki, aşağıdakı fayllar onu görə bilsin
+// 1. Env faylını EN BIRINCI oxuyuruq
 dotenv.config({ path: path.join(__dirname, '.env') });
 
 const express = require('express');
@@ -22,8 +22,9 @@ app.use(express.urlencoded({ extended: false }));
 // 4. Marşrutlar (Routes)
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/products', require('./routes/productRoutes'));
+app.use('/api/cart', require('./routes/cartRoutes')); // <--- YENİ: Səbət (Cart) marşrutu bura əlavə olundu
 
-// 5. Sadə Xəta Tutucu (Error Handler) - Əlavə etmək yaxşıdır
+// 5. Sadə Xəta Tutucu (Error Handler)
 app.use((err, req, res, next) => {
     const statusCode = res.statusCode ? res.statusCode : 500;
     res.status(statusCode).json({
