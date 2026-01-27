@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { apiCall } from '../../utils/api';
 import { useAuth } from '../../hooks/useAuth';
+import { useCart } from '../../context/CartContsxt';
 
 interface Review {
     _id: string;
@@ -21,13 +22,13 @@ interface Product {
     price: number;
     image: string;
     images: string[];
-    category: string;
-    brand: string;
+    category: any; // String və ya Object ola bilər deyə 'any' etdim
+    brand: any;    // String və ya Object ola bilər deyə 'any' etdim
     countInStock: number;
     rating: number;
     numReviews: number;
     description: string;
-    styles: string[];
+    styles: any[]; // String və ya Object ola bilər
     style: string;
     reviews: Review[];
     createdAt: string;
@@ -37,6 +38,30 @@ const ProductDetailPage = () => {
     const params = useParams();
     const productId = params.id as string;
     const { user, token: hookToken, isAuthenticated, loading: authLoading } = useAuth();
+    const { updateCartCount } = useCart();
+
+    // --- KÖMƏKÇİ FUNKSİYALAR ---
+    
+    // 1. Şəkil linkini düzəldən funksiya
+    const getImageUrl = (url: any) => {
+        if (!url) return '';
+        if (typeof url === 'object') return ''; // Əgər səhvən obyekt gəlibsə, boş qaytar
+        if (url.startsWith('http')) return url;
+        return `http://localhost:5001${url}`;
+    };
+
+    // 2. Obyekt Xətasını həll edən funksiya (Brand, Category, Styles üçün)
+    const renderValue = (value: any) => {
+        if (!value) return '';
+        // Əgər sadə yazıdırsa, olduğu kimi qaytar
+        if (typeof value === 'string') return value;
+        // Əgər obyektdirsə (məsələn {name: 'Asus', _id: ...}), adını qaytar
+        if (typeof value === 'object') {
+            return value.name || value.title || value.value || 'Unknown';
+        }
+        return String(value);
+    };
+    // ---------------------------
 
     const [product, setProduct] = useState<Product | null>(null);
     const [loading, setLoading] = useState(true);
@@ -47,7 +72,7 @@ const ProductDetailPage = () => {
     const [reviewComment, setReviewComment] = useState('');
     const [submittingReview, setSubmittingReview] = useState(false);
     const [reviewError, setReviewError] = useState('');
-
+    const [addingToCart, setAddingToCart] = useState(false);
     const [localToken, setLocalToken] = useState<string | null>(null);
 
     useEffect(() => {
@@ -94,6 +119,44 @@ const ProductDetailPage = () => {
             fetchProduct();
         }
     }, [productId]);
+
+    const addToCartHandler = async () => {
+        if (!userIsAuthenticated) {
+            alert("Səbətə məhsul atmaq üçün zəhmət olmasa giriş edin!");
+            return;
+        }
+
+        try {
+            setAddingToCart(true);
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+
+            const res = await fetch(`${apiUrl}/cart/add`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${activeToken}`
+                },
+                body: JSON.stringify({
+                    productId: productId,
+                    quantity: quantity
+                })
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                alert(`✅ "${product?.name}" səbətə əlavə olundu!`);
+                updateCartCount();
+            } else {
+                alert(data.message || "Xəta baş verdi");
+            }
+        } catch (error) {
+            console.error("Cart Error:", error);
+            alert("Serverlə əlaqə kəsildi");
+        } finally {
+            setAddingToCart(false);
+        }
+    };
 
     const handleSubmitReview = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -147,13 +210,11 @@ const ProductDetailPage = () => {
         }
     };
 
-    // --- LOADING COMPONENT ---
     if (loading) {
         return (
             <div className="min-h-screen bg-black text-white flex items-center justify-center">
                 <div className="text-center">
                     <div className="relative w-20 h-20 mx-auto mb-6">
-                        {/* Qırmızı spin effekti */}
                         <div className="absolute inset-0 bg-gradient-to-tr from-red-600 to-black rounded-full animate-spin blur-sm"></div>
                         <div className="absolute inset-2 bg-black rounded-full border border-red-900/50"></div>
                         <div className="absolute inset-0 flex items-center justify-center">
@@ -165,7 +226,6 @@ const ProductDetailPage = () => {
         );
     }
 
-    // --- ERROR COMPONENT ---
     if (error || !product) {
         return (
             <div className="min-h-screen bg-black text-white flex items-center justify-center">
@@ -183,19 +243,17 @@ const ProductDetailPage = () => {
         );
     }
 
-    const allImages = [product.image, ...product.images].filter(Boolean);
+    // Şəkilləri hazırlayırıq (Objects gələrsə filtr edirik)
+    const allImages = [product.image, ...(product.images || [])].filter(item => typeof item === 'string');
 
     return (
         <div className="min-h-screen bg-black text-white font-sans selection:bg-red-500 selection:text-white">
-
-            {/* --- Animated Background Effects --- */}
             <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-red-900/20 rounded-full blur-[120px] animate-pulse"></div>
                 <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-red-800/10 rounded-full blur-[120px]"></div>
                 <div className="absolute top-[40%] left-[50%] transform -translate-x-1/2 w-[800px] h-[1px] bg-gradient-to-r from-transparent via-red-900/50 to-transparent"></div>
             </div>
 
-            {/* --- Breadcrumb --- */}
             <div className="relative z-10 border-b border-white/10 backdrop-blur-md bg-black/50">
                 <div className="container mx-auto px-6 py-4">
                     <div className="flex items-center gap-3 text-sm tracking-wider">
@@ -211,16 +269,13 @@ const ProductDetailPage = () => {
             <div className="relative z-10 container mx-auto px-6 py-12">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
 
-                    {/* --- Left Column: Images --- */}
                     <div className="space-y-6">
-                        {/* Main Image Frame */}
-                        <div className="relative group w-full  bg-neutral-950 rounded-xl overflow-hidden border border-neutral-800 shadow-[0_0_0_1px_rgba(255,255,255,0.05)]">
-                            {/* Decorative Corner Borders */}
+                        <div className="relative group w-full bg-neutral-950 rounded-xl overflow-hidden border border-neutral-800 shadow-[0_0_0_1px_rgba(255,255,255,0.05)]">
                             <div className="absolute top-0 left-0 w-16 h-16 border-l-2 border-t-2 border-red-600/50 z-20"></div>
                             <div className="absolute bottom-0 right-0 w-16 h-16 border-r-2 border-b-2 border-red-600/50 z-20"></div>
 
                             <img
-                                src={allImages[selectedImage] || product.image}
+                                src={getImageUrl(allImages[selectedImage] || product.image)}
                                 alt={product.name}
                                 className="w-full h-full object-cover transition-transform duration-700"
                             />
@@ -234,7 +289,6 @@ const ProductDetailPage = () => {
                             )}
                         </div>
 
-                        {/* Thumbnails */}
                         {allImages.length > 1 && (
                             <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
                                 {allImages.map((img, idx) => (
@@ -247,7 +301,7 @@ const ProductDetailPage = () => {
                                             }`}
                                     >
                                         <img
-                                            src={img}
+                                            src={getImageUrl(img)}
                                             alt={`${product.name} ${idx}`}
                                             className="w-full h-full object-cover"
                                         />
@@ -260,15 +314,16 @@ const ProductDetailPage = () => {
                         )}
                     </div>
 
-                    {/* --- Right Column: Info --- */}
                     <div className="space-y-8">
                         <div>
                             <div className="flex items-center gap-4 mb-4">
+                                {/* DÜZƏLİŞ: Brand Obyektdirsə adını, deyilsə özünü yaz */}
                                 <span className="px-3 py-1 bg-neutral-900 border border-neutral-700 rounded text-[10px] font-black tracking-[0.2em] text-neutral-400 uppercase">
-                                    {product.brand}
+                                    {renderValue(product.brand)}
                                 </span>
+                                {/* DÜZƏLİŞ: Category Obyektdirsə adını, deyilsə özünü yaz */}
                                 <span className="px-3 py-1 bg-red-900/20 border border-red-900/50 rounded text-[10px] font-black tracking-[0.2em] text-red-500 uppercase shadow-[0_0_10px_rgba(220,38,38,0.2)]">
-                                    {product.category}
+                                    {renderValue(product.category)}
                                 </span>
                             </div>
 
@@ -276,7 +331,6 @@ const ProductDetailPage = () => {
                                 {product.name}
                             </h1>
 
-                            {/* Rating */}
                             <div className="flex items-center gap-4 border-l-4 border-red-600 pl-4 bg-gradient-to-r from-neutral-900/50 to-transparent py-2">
                                 <div className="flex items-center gap-1">
                                     {[...Array(5)].map((_, i) => (
@@ -291,9 +345,7 @@ const ProductDetailPage = () => {
                             </div>
                         </div>
 
-                        {/* Price Section */}
                         <div className="bg-neutral-950 border border-neutral-800 rounded-xl p-8 relative overflow-hidden group">
-                            {/* Hover Glow Effect */}
                             <div className="absolute inset-0 bg-red-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                             <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -312,10 +364,8 @@ const ProductDetailPage = () => {
                             </div>
                         </div>
 
-                        {/* Controls */}
                         {product.countInStock > 0 && (
                             <div className="space-y-6 pt-4 border-t border-neutral-800">
-                                {/* Quantity */}
                                 <div className="flex items-center gap-6">
                                     <label className="text-xs font-bold text-neutral-400 tracking-widest uppercase">Quantity</label>
                                     <div className="flex items-center bg-neutral-900 rounded-lg border border-neutral-800 p-1">
@@ -340,18 +390,20 @@ const ProductDetailPage = () => {
                                     </div>
                                 </div>
 
-                                {/* Add to Cart Button */}
-                                <button className="w-full relative overflow-hidden group bg-red-600 hover:bg-red-700 text-white font-black text-lg py-5 px-8 rounded-xl transition-all shadow-[0_0_20px_rgba(220,38,38,0.3)] hover:shadow-[0_0_30px_rgba(220,38,38,0.6)]">
+                                <button
+                                    onClick={addToCartHandler}
+                                    disabled={addingToCart}
+                                    className={`w-full relative overflow-hidden group bg-red-600 hover:bg-red-700 text-white font-black text-lg py-5 px-8 rounded-xl transition-all shadow-[0_0_20px_rgba(220,38,38,0.3)] hover:shadow-[0_0_30px_rgba(220,38,38,0.6)] ${addingToCart ? 'opacity-70 cursor-wait' : ''}`}
+                                >
                                     <span className="relative z-10 flex items-center justify-center gap-3">
-                                        ADD TO CART <span className="bg-white/20 px-2 py-0.5 rounded text-sm">{quantity}</span>
+                                        {addingToCart ? 'ADDING...' : 'ADD TO CART'}
+                                        {!addingToCart && <span className="bg-white/20 px-2 py-0.5 rounded text-sm">{quantity}</span>}
                                     </span>
-                                    {/* Shine Effect */}
                                     <div className="absolute top-0 -left-full w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:left-full transition-all duration-700 skew-x-12 ease-in-out"></div>
                                 </button>
                             </div>
                         )}
 
-                        {/* Styles Selector */}
                         {product.styles && product.styles.length > 0 && (
                             <div className="space-y-3">
                                 <label className="text-xs font-bold text-neutral-400 tracking-widest uppercase">Select Style</label>
@@ -359,19 +411,19 @@ const ProductDetailPage = () => {
                                     {product.styles.map((s, idx) => (
                                         <button
                                             key={idx}
-                                            className={`px-6 py-2 rounded-full border text-sm font-bold transition-all uppercase ${s === product.style
+                                            className={`px-6 py-2 rounded-full border text-sm font-bold transition-all uppercase ${renderValue(s) === product.style
                                                 ? 'bg-white text-black border-white shadow-[0_0_15px_rgba(255,255,255,0.3)]'
                                                 : 'bg-transparent text-neutral-400 border-neutral-800 hover:border-neutral-500 hover:text-white'
                                                 }`}
                                         >
-                                            {s}
+                                            {/* DÜZƏLİŞ: Styles içində də Obyekt gələ bilər */}
+                                            {renderValue(s)}
                                         </button>
                                     ))}
                                 </div>
                             </div>
                         )}
 
-                        {/* Specs & Description */}
                         <div className="bg-neutral-900/30 border border-neutral-800/50 backdrop-blur-sm rounded-xl p-6">
                             <h3 className="text-white font-bold mb-4 border-b border-neutral-800 pb-2">Description</h3>
                             <p className="text-neutral-400 leading-7 text-sm mb-6">
@@ -381,18 +433,19 @@ const ProductDetailPage = () => {
                             <div className="grid grid-cols-2 gap-4 text-xs">
                                 <div className="p-3 bg-black/40 rounded border border-neutral-800">
                                     <span className="block text-neutral-500 mb-1">BRAND</span>
-                                    <span className="text-white font-bold">{product.brand}</span>
+                                    {/* DÜZƏLİŞ: Yenə Brand yoxlanışı */}
+                                    <span className="text-white font-bold">{renderValue(product.brand)}</span>
                                 </div>
                                 <div className="p-3 bg-black/40 rounded border border-neutral-800">
                                     <span className="block text-neutral-500 mb-1">CATEGORY</span>
-                                    <span className="text-white font-bold">{product.category}</span>
+                                    {/* DÜZƏLİŞ: Yenə Category yoxlanışı */}
+                                    <span className="text-white font-bold">{renderValue(product.category)}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* --- Reviews Section --- */}
                 <div className="mt-24 border-t border-neutral-800 pt-16">
                     <h2 className="text-3xl font-black text-white mb-10 flex items-center gap-3">
                         <span className="w-2 h-8 bg-red-600 rounded-full"></span>
@@ -400,7 +453,6 @@ const ProductDetailPage = () => {
                     </h2>
 
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-                        {/* Review Form */}
                         <div className="lg:col-span-1">
                             <div className="bg-neutral-950 border border-neutral-800 rounded-xl p-6 sticky top-24">
                                 <h3 className="text-xl font-bold text-white mb-6">Write a Review</h3>
@@ -460,7 +512,6 @@ const ProductDetailPage = () => {
                             </div>
                         </div>
 
-                        {/* Reviews List */}
                         <div className="lg:col-span-2 space-y-4">
                             {product.reviews && product.reviews.length > 0 ? (
                                 product.reviews.map((review) => (

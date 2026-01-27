@@ -36,7 +36,7 @@ export default function ResetPassword({ params }: { params: Promise<{ token: str
     }
 
     try {
-      await axios.put(`http://127.0.0.1:5001/api/users/reset-password/${token}`, { password });
+      await axios.put(`http:5001/api/users/reset-password/${token}`, { password });
       setMessage("Parol uğurla dəyişdirildi! Login səhifəsinə yönləndirilirsiniz...");
       setTimeout(() => router.push("/login"), 3000);
     } catch (err: any) {

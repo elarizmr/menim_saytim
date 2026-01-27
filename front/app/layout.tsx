@@ -5,6 +5,9 @@ import { usePathname } from "next/navigation";
 import "./globals.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+// --- YENİ: Context-i import edirik ---
+import { CartProvider } from "./context/CartContsxt"; 
+// -------------------------------------
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,11 +22,15 @@ export default function RootLayout({
   return (
     <html lang="az">
       <body className={inter.className}>
-        {!isAdminPage && <Header />}
-        <main className="min-h-screen">
-          {children}
-        </main>
-        {!isAdminPage && <Footer />}
+        {/* Bütün saytı CartProvider ilə qucaqlayırıq */}
+        <CartProvider>
+            {!isAdminPage && <Header />}
+            <main className="min-h-screen">
+              {children}
+            </main>
+            {!isAdminPage && <Footer />}
+        </CartProvider>
+        {/* ------------------------------------------- */}
       </body>
     </html>
   );

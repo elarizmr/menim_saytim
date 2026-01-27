@@ -22,9 +22,15 @@ app.use(express.urlencoded({ extended: false }));
 // 4. Marşrutlar (Routes)
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/products', require('./routes/productRoutes'));
-app.use('/api/cart', require('./routes/cartRoutes')); // <--- YENİ: Səbət (Cart) marşrutu bura əlavə olundu
+app.use('/api/cart', require('./routes/cartRoutes'));
+// --- YENİ: Upload (Şəkil yükləmə) marşrutu ---
+app.use('/api/upload', require('./routes/uploadRoutes')); 
 
-// 5. Sadə Xəta Tutucu (Error Handler)
+// 5. Statik Qovluq (Şəkillərin brauzerdə açılması üçün VACİBDİR)
+// Bu kod 'uploads' qovluğunu internetə açır
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// 6. Sadə Xəta Tutucu (Error Handler)
 app.use((err, req, res, next) => {
     const statusCode = res.statusCode ? res.statusCode : 500;
     res.status(statusCode).json({

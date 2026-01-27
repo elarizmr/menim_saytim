@@ -10,7 +10,7 @@ interface Product {
     name: string;
     price: number;
     image: string;
-    category: string;
+    category: string; // Əgər bu obyektdirsə, bura dəymək lazımdır
     brand: string;
     countInStock: number;
     rating: number;
@@ -68,8 +68,17 @@ const ShopPage = () => {
         try {
             const response = await apiCall('/products');
             const data: Product[] = await response.json();
-            const uniqueCategories = [...new Set(data.map((p) => p.category))].filter(Boolean);
-            const uniqueBrands = [...new Set(data.map((p) => p.brand))].filter(Boolean);
+            
+            // XƏTA EHTİMALINI AZALTMAQ ÜÇÜN DÜZƏLİŞ:
+            // Əgər category obyektdirsə, onun içindən .name götürürük, Stringdirsə özünü.
+            const uniqueCategories = [...new Set(data.map((p: any) => 
+                typeof p.category === 'object' ? p.category?.name : p.category
+            ))].filter(Boolean);
+
+            const uniqueBrands = [...new Set(data.map((p: any) => 
+                typeof p.brand === 'object' ? p.brand?.name : p.brand
+            ))].filter(Boolean);
+
             setCategories(uniqueCategories as string[]);
             setBrands(uniqueBrands as string[]);
         } catch (error) {
@@ -106,14 +115,12 @@ const ShopPage = () => {
     return (
         <div className="min-h-screen bg-neutral-950 text-neutral-200 font-sans selection:bg-purple-500/30">
 
-            {/* Background Grid Mesh (Subtle Gaming Texture) */}
             <div className="fixed inset-0 z-0 opacity-[0.03] pointer-events-none"
                 style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
             </div>
 
             <div className="relative z-10 container mx-auto px-6 py-12 max-w-390">
 
-                {/* Page Title */}
                 <div className="mb-12 border-b border-neutral-800 pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
                     <div>
                         <h1 className="text-4xl md:text-5xl font-black tracking-tighter text-white uppercase">
@@ -130,11 +137,8 @@ const ShopPage = () => {
 
                 <div className="flex flex-col lg:flex-row gap-12">
 
-                    {/* --- Sidebar Filters (The HUD) --- */}
                     <aside className={`w-full lg:w-72 flex-shrink-0`}>
                         <div className="sticky top-8 space-y-8">
-
-                            {/* Mobile Toggle */}
                             <button
                                 onClick={() => setExpandFilters(!expandFilters)}
                                 className="lg:hidden w-full flex items-center justify-between bg-neutral-900 border border-neutral-800 px-4 py-3 rounded text-sm font-bold uppercase tracking-wider hover:bg-neutral-800 transition-colors"
@@ -145,8 +149,6 @@ const ShopPage = () => {
 
                             {expandFilters && (
                                 <div className="space-y-8 animate-in fade-in slide-in-from-top-4 duration-300">
-
-                                    {/* Search Input */}
                                     <div className="group relative">
                                         <input
                                             type="text"
@@ -155,10 +157,8 @@ const ShopPage = () => {
                                             onChange={(e) => handleFilterChange('keyword', e.target.value)}
                                             className="w-full bg-neutral-900/50 border-b-2 border-neutral-800 px-3 py-3 text-sm focus:outline-none focus:border-red-500 transition-colors placeholder-neutral-600 font-mono text-white"
                                         />
-
                                     </div>
 
-                                    {/* Categories */}
                                     <div>
                                         <h3 className="text-xs font-bold text-neutral-500 uppercase tracking-widest mb-4">Class</h3>
                                         <div className="space-y-2">
@@ -168,19 +168,20 @@ const ShopPage = () => {
                                             >
                                                 [ ALL_CLASSES ]
                                             </button>
-                                            {categories.map((cat) => (
+                                            {/* BURADA XƏTA OLA BİLƏRDİ, ARTIQ OLMAMALIDIR */}
+                                            {categories.map((cat, index) => (
                                                 <button
-                                                    key={cat}
+                                                    key={index}
                                                     onClick={() => handleFilterChange('category', cat)}
                                                     className={`block text-sm w-full text-left transition-all hover:translate-x-1 ${filters.category === cat ? 'text-purple-400 font-bold' : 'text-neutral-400 hover:text-white'}`}
                                                 >
+                                                    {/* cat artıq sadə String-dir */}
                                                     {cat}
                                                 </button>
                                             ))}
                                         </div>
                                     </div>
 
-                                    {/* Brand & Stock (Selects) */}
                                     <div className="grid grid-cols-1 gap-4">
                                         <div>
                                             <h3 className="text-xs font-bold text-neutral-500 uppercase tracking-widest mb-2">Manufacturer</h3>
@@ -190,7 +191,7 @@ const ShopPage = () => {
                                                 className="w-full bg-neutral-900 border border-neutral-800 text-sm p-2 rounded focus:outline-none focus:border-neutral-600 text-neutral-300"
                                             >
                                                 <option value="">All Brands</option>
-                                                {brands.map((brand) => <option key={brand} value={brand}>{brand}</option>)}
+                                                {brands.map((brand, index) => <option key={index} value={brand}>{brand}</option>)}
                                             </select>
                                         </div>
                                         <div>
@@ -207,7 +208,6 @@ const ShopPage = () => {
                                         </div>
                                     </div>
 
-                                    {/* Price Slider */}
                                     <div>
                                         <div className="flex justify-between items-center mb-4">
                                             <h3 className="text-xs font-bold text-neutral-500 uppercase tracking-widest">Budget</h3>
@@ -228,7 +228,6 @@ const ShopPage = () => {
                                         </div>
                                     </div>
 
-                                    {/* Reset Button */}
                                     <button
                                         onClick={resetFilters}
                                         className="w-full py-3 border border-neutral-800 hover:bg-white hover:text-black hover:border-white transition-all duration-200 text-xs font-bold tracking-widest uppercase rounded"
@@ -240,9 +239,7 @@ const ShopPage = () => {
                         </div>
                     </aside>
 
-                    {/* --- Product Grid --- */}
                     <main className="flex-1">
-                        {/* Results Bar */}
                         <div className="mb-6 flex items-center justify-between text-sm">
                             <span className="text-neutral-500 font-mono">
                                 FOUND: <span className="text-white">{products.length}</span> UNIT(S)
@@ -265,21 +262,17 @@ const ShopPage = () => {
                             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-10">
                                 {products.map((product) => (
                                     <Link href={`/product/${product._id}`} key={product._id} className="group relative block">
-
-                                        {/* Card Container */}
                                         <div className="relative overflow-hidden bg-neutral-900 border border-neutral-800 rounded-lg transition-all duration-300">
-
-                                            {/* Image Area - DƏYİŞİKLİK BURADA */}
-                                            {/* h-140 sildik, aspect-[3/4] əlavə etdik ki, oyun qutusu kimi görünsün */}
                                             <div className="relative aspect-[3/4] overflow-hidden bg-neutral-950">
+                                                
+                                                {/* --- ƏSAS DÜZƏLİŞ BURADADIR --- */}
                                                 <img
-                                                    src={product.image}
+                                                    src={product.image.startsWith('http') ? product.image : `http://localhost:5001${product.image}`}
                                                     alt={product.name}
-                                                    // object-cover şəkli tam oturdur. Əgər şəklin kənarları boş qalsın amma tam görünsün istəyirsənsə 'object-contain' yaz
                                                     className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
                                                 />
+                                                {/* ----------------------------- */}
 
-                                                {/* Status Badges */}
                                                 <div className="absolute top-3 left-3 flex flex-col gap-2">
                                                     {product.countInStock === 0 && (
                                                         <span className="px-2 py-1 bg-red-500/10 border border-red-500/50 text-red-500 text-[10px] font-bold uppercase tracking-wider backdrop-blur-md">
@@ -287,17 +280,13 @@ const ShopPage = () => {
                                                         </span>
                                                     )}
                                                 </div>
-
-                                                {/* Hover Overlay */}
                                                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                             </div>
 
-                                            {/* Info Area */}
                                             <div className="p-5">
-                                                {/* ... Burası olduğu kimi qalır ... */}
                                                 <div className="flex justify-between items-start mb-2">
                                                     <p className="text-[12px] text-purple-400 font-bold uppercase tracking-widest">
-                                                        {product.brand}
+                                                        {typeof product.brand === 'object' ? (product.brand as any).name : product.brand}
                                                     </p>
                                                     <div className="flex flex-col items-end gap-1">
                                                         <div className="flex items-center gap-0.5">
@@ -327,8 +316,6 @@ const ShopPage = () => {
                                                     <div className="font-mono text-xl text-white">
                                                         ${product.price}
                                                     </div>
-
-                                                    {/* Fake "Add" Button Visual */}
                                                     <div className="w-8 h-8 rounded-full border border-neutral-700 flex items-center justify-center text-neutral-400 hover:bg-white hover:text-black hover:border-white hover:rotate-z-180 duration-500 transition-all">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
                                                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -337,7 +324,6 @@ const ShopPage = () => {
                                                 </div>
                                             </div>
                                         </div>
-
                                     </Link>
                                 ))}
                             </div>

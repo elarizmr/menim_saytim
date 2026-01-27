@@ -3,14 +3,17 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-// UPDATED: Imported relevant icons for the pages
+// --- YENİ: Context-i çağırırıq ---
+import { useCart } from "@/app/context/CartContsxt"; // <--- BU SƏTİR ƏLAVƏ OLUNDU
+// ---------------------------------
+
 import {
     FiSearch, FiUser, FiShoppingCart, FiChevronDown, FiLogOut, FiMenu, FiX,
-    FiBookOpen, // For Blog
-    FiShoppingBag, // For Shop
-    FiInfo, // For About
-    FiMail, // For Contact
-    FiHelpCircle // For FAQ
+    FiBookOpen, 
+    FiShoppingBag, 
+    FiInfo, 
+    FiMail, 
+    FiHelpCircle 
 } from "react-icons/fi";
 
 interface User {
@@ -24,6 +27,11 @@ const Header = () => {
     const [user, setUser] = useState<User | null>(null);
     const [showDropdown, setShowDropdown] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    
+    // --- YENİ: Səbət sayını götürürük ---
+    const { cartCount } = useCart(); // <--- BU SƏTİR ƏLAVƏ OLUNDU
+    // ------------------------------------
+
     const router = useRouter();
 
     useEffect(() => {
@@ -54,7 +62,6 @@ const Header = () => {
     return (
         <header className="w-full relative z-50">
 
-            {/* Custom Styles for Animation (No config needed) */}
             <style jsx global>{`
                 @keyframes slideIn {
                     from { transform: translateX(-100%); }
@@ -172,18 +179,26 @@ const Header = () => {
                                 </Link>
                             )}
 
+                            {/* --- CART HİSSƏSİ DÜZƏLDİLDİ --- */}
                             <Link href="/cart" className="flex items-center gap-3 group">
                                 <div className="relative text-2xl sm:text-3xl text-gray-600 group-hover:text-black">
                                     <FiShoppingCart />
-                                    <span className="absolute -top-2 -right-2 bg-[#E60023] text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full font-bold">
-                                        0
-                                    </span>
+                                    
+                                    {/* Əgər say 0-dan böyükdürsə rəqəmi göstərsin, yoxsa boş görünsün və ya 0 */}
+                                    {cartCount > 0 && (
+                                        <span className="absolute -top-2 -right-2 bg-[#E60023] text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full font-bold">
+                                            {cartCount}
+                                        </span>
+                                    )}
                                 </div>
                                 <div className="hidden sm:block text-right leading-tight">
                                     <span className="block text-xs text-gray-500 font-bold">My Cart:</span>
+                                    {/* Qiymət hələlik statikdir, istəsən onu da Context-ə əlavə edə bilərik */}
                                     <span className="block text-sm font-black text-gray-900">$0.00</span>
                                 </div>
                             </Link>
+                             {/* ------------------------------ */}
+
                         </div>
                     </div>
                 </div>
@@ -192,7 +207,6 @@ const Header = () => {
             {/* ----------------- 2. BOTTOM SECTION (RED NAVBAR) ----------------- */}
             <div className="bg-[#E60023] text-white">
                 <div className="max-w-[1600px] mx-auto px-4 lg:px-8 h-14 flex items-center justify-between">
-                    {/* Desktop Menu - UPDATED ICONS */}
                     <nav className="hidden lg:flex items-center gap-8 text-sm font-bold uppercase tracking-wide">
                         <Link href="/blog" className="flex items-center gap-2 hover:text-black/80 transition">
                             <FiBookOpen className="text-xl" /> Blog <FiChevronDown />
@@ -223,13 +237,11 @@ const Header = () => {
             {/* ----------------- MOBILE MENU OVERLAY ----------------- */}
             {isMobileMenuOpen && (
                 <div className="fixed inset-0 z-50 lg:hidden">
-                    {/* Backdrop with Fade In */}
                     <div
                         className="fixed inset-0 bg-black/50 animate-fade-in"
                         onClick={() => setIsMobileMenuOpen(false)}
                     />
 
-                    {/* Menu Content with Slide In Animation */}
                     <div className="fixed top-0 left-0 w-[80%] max-w-sm h-full bg-white shadow-2xl p-6 flex flex-col gap-6 overflow-y-auto animate-slide-in">
                         <div className="flex items-center justify-between">
                             <span className="font-bold text-black text-lg">Menu</span>
@@ -238,7 +250,6 @@ const Header = () => {
                             </button>
                         </div>
 
-                        {/* Mobile Search */}
                         <div className="bg-gray-100 rounded-lg p-3 flex items-center">
                             <input
                                 type="text"
@@ -248,7 +259,6 @@ const Header = () => {
                             <FiSearch className="text-gray-500" />
                         </div>
 
-                        {/* Mobile Nav Links - UPDATED ICONS */}
                         <nav className="flex flex-col gap-4 text-gray-800 font-bold">
                             <Link href="/blog" className="flex items-center gap-3 py-2 border-b border-gray-100 hover:text-[#E60023] transition" onClick={() => setIsMobileMenuOpen(false)}>
                                 <FiBookOpen className="text-[#E60023]" /> Blog
@@ -267,7 +277,6 @@ const Header = () => {
                             </Link>
                         </nav>
 
-                        {/* Mobile Extra Info */}
                         <div className="mt-auto space-y-4">
                             <div className="flex gap-2">
                                 <button className="flex-1 border border-gray-300 rounded px-2 py-2 text-xs font-bold hover:bg-gray-50">USD</button>

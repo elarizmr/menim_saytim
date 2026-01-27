@@ -21,9 +21,7 @@ const productSchema = mongoose.Schema({
     },
     name: { type: String, required: true },
     
-   
     image: { type: String, required: true },
-    
     
     images: [String],
 
@@ -31,12 +29,20 @@ const productSchema = mongoose.Schema({
     category: { type: String, required: true },
     description: { type: String, required: true },
 
-    
     reviews: [reviewSchema], 
 
-   
-    styles: [String], 
-    style: { type: String, default: "Standard" },
+    // --- DƏYİŞDİRİLƏN HİSSƏ BURADIR ---
+    // Köhnə kod: styles: [String],
+    // Yeni kod (Həm ad, həm şəkil saxlayır):
+    styles: [
+        {
+            name: { type: String, required: true }, // Məs: "0.2v"
+            image: { type: String, required: false } // Məs: "/uploads/image-123.jpg"
+        }
+    ],
+    // ------------------------------------
+
+    style: { type: String, default: "Standard" }, // Bunu saxlaya bilərsən, ziyanı yoxdur
 
     rating: { type: Number, required: true, default: 0 },
     numReviews: { type: Number, required: true, default: 0 },
