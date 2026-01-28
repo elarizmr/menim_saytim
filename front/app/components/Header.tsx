@@ -9,11 +9,11 @@ import { useCart } from "@/app/context/CartContsxt"; // <--- BU SƏTİR ƏLAVƏ 
 
 import {
     FiSearch, FiUser, FiShoppingCart, FiChevronDown, FiLogOut, FiMenu, FiX,
-    FiBookOpen, 
-    FiShoppingBag, 
-    FiInfo, 
-    FiMail, 
-    FiHelpCircle 
+    FiBookOpen,
+    FiShoppingBag,
+    FiInfo,
+    FiMail,
+    FiHelpCircle
 } from "react-icons/fi";
 
 interface User {
@@ -27,7 +27,7 @@ const Header = () => {
     const [user, setUser] = useState<User | null>(null);
     const [showDropdown, setShowDropdown] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    
+
     // --- YENİ: Səbət sayını götürürük ---
     const { cartCount } = useCart(); // <--- BU SƏTİR ƏLAVƏ OLUNDU
     // ------------------------------------
@@ -158,11 +158,7 @@ const Header = () => {
                                                 <p className="text-sm font-bold text-gray-900">{user.name}</p>
                                                 <p className="text-xs text-gray-500 truncate">{user.email}</p>
                                             </div>
-                                            {user.isAdmin && (
-                                                <Link href="/admin" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#E60023]">
-                                                    Admin Panel
-                                                </Link>
-                                            )}
+
                                             <button
                                                 onClick={handleLogout}
                                                 className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2 rounded-b-lg"
@@ -183,7 +179,7 @@ const Header = () => {
                             <Link href="/cart" className="flex items-center gap-3 group">
                                 <div className="relative text-2xl sm:text-3xl text-gray-600 group-hover:text-black">
                                     <FiShoppingCart />
-                                    
+
                                     {/* Əgər say 0-dan böyükdürsə rəqəmi göstərsin, yoxsa boş görünsün və ya 0 */}
                                     {cartCount > 0 && (
                                         <span className="absolute -top-2 -right-2 bg-[#E60023] text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full font-bold">
@@ -197,7 +193,7 @@ const Header = () => {
                                     <span className="block text-sm font-black text-gray-900">$0.00</span>
                                 </div>
                             </Link>
-                             {/* ------------------------------ */}
+                            {/* ------------------------------ */}
 
                         </div>
                     </div>
