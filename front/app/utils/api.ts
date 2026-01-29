@@ -25,7 +25,7 @@ export async function apiCall(
     endpoint: string,
     options: RequestInit = {}
 ) {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
     const url = `${API_URL}${endpoint}`;
     return fetchWithAuth(url, options);
 }
