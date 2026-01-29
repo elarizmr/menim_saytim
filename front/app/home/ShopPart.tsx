@@ -133,13 +133,14 @@ const LatestArrivals = () => {
                             <Link href={`/product/${game._id}`} key={game._id} className="group relative block">
                                 <div className="relative overflow-hidden bg-neutral-900 border border-neutral-800 rounded-lg transition-all duration-300">
                                     <div className="relative aspect-[3/4] overflow-hidden bg-neutral-950">
-                                        
-                                        {/* BURADA src={resolveImage(...)} İSTİFADƏ ETDİK */}
+
+                                        {/* --- ƏSAS DÜZƏLİŞ BURADADIR --- */}
                                         <img
-                                            src={resolveImage(game.image)}
+                                            src={game.image.startsWith('http') ? game.image : `http://localhost:5001${game.image}`}
                                             alt={game.name}
                                             className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
                                         />
+                                        {/* ----------------------------- */}
 
                                         <div className="absolute top-3 left-3 flex flex-col gap-2">
                                             {game.countInStock === 0 && (
@@ -154,12 +155,20 @@ const LatestArrivals = () => {
                                     <div className="p-5">
                                         <div className="flex justify-between items-start mb-2">
                                             <p className="text-[12px] text-purple-400 font-bold uppercase tracking-widest">
-                                                {game.brand}
+                                                {typeof game.brand === 'object' ? (game.brand as any).name : game.brand}
                                             </p>
                                             <div className="flex flex-col items-end gap-1">
                                                 <div className="flex items-center gap-0.5">
                                                     {[...Array(5)].map((_, i) => (
-                                                        <span key={i} className={`text-xs ${i < Math.round(game.rating) ? 'text-yellow-400' : 'text-neutral-700'}`}>★</span>
+                                                        <span
+                                                            key={i}
+                                                            className={`text-xs ${i < Math.round(game.rating)
+                                                                ? 'text-yellow-400'
+                                                                : 'text-neutral-700'
+                                                                }`}
+                                                        >
+                                                            ★
+                                                        </span>
                                                     ))}
                                                 </div>
                                                 <span className="text-[10px] font-mono text-neutral-500">
@@ -173,7 +182,9 @@ const LatestArrivals = () => {
                                         </h3>
 
                                         <div className="flex items-center justify-between border-t border-neutral-800 pt-4 mt-2">
-                                            <div className="font-mono text-xl text-white">${game.price}</div>
+                                            <div className="font-mono text-xl text-white">
+                                                ${game.price}
+                                            </div>
                                             <div className="w-8 h-8 rounded-full border border-neutral-700 flex items-center justify-center text-neutral-400 hover:bg-white hover:text-black hover:border-white hover:rotate-z-180 duration-500 transition-all">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
                                                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
