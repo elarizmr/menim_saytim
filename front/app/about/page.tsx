@@ -5,7 +5,7 @@ const About = () => {
   return (
     <div className='bg-black mx-auto text-white pb-1'>
 
-      {/* Hero Section */}
+      {}
       <div className='relative w-full border-b border-gray-800 h-96 overflow-hidden'>
         <img
           className='w-full h-full object-cover brightness-30'
@@ -28,8 +28,7 @@ const About = () => {
         </div>
       </div>
 
-
-      {/* Mission Section */}
+      {}
       <div className="px-8 md:px-20 py-16">
         <p className='text-3xl md:text-4xl lg:text-5xl font-bold mb-12'>
           Crafting Unforgettable Experiences
@@ -141,7 +140,7 @@ const About = () => {
             </div>
           </div>
 
-          {/* Services Section */}
+          {}
           <div className='text-center mb-12'>
             <h2 className='text-3xl md:text-4xl font-bold mb-4'>
               About Our Services

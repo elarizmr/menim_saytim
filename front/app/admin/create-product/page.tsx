@@ -3,13 +3,12 @@
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import AdminSidebar from "@/app/admin/adminsidebar"; // Sidebar
+import AdminSidebar from "@/app/admin/adminsidebar"; 
 import { FiSave, FiArrowLeft, FiTrash2, FiPlus, FiImage, FiXCircle } from "react-icons/fi";
 
 export default function CreateProductPage() {
   const router = useRouter();
 
-  // Başlanğıc dəyərlər (Boş)
   const [formData, setFormData] = useState({
     name: "",
     price: 0,
@@ -28,7 +27,6 @@ export default function CreateProductPage() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // --- API: Şəkil Yükləmə ---
   const uploadFileToServer = async (file: File) => {
     const formDataFile = new FormData();
     formDataFile.append("image", file);
@@ -48,7 +46,6 @@ export default function CreateProductPage() {
     return data;
   };
 
-  // 1. Əsas Şəkil
   const handleMainImageUpload = async (e: any) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -63,7 +60,6 @@ export default function CreateProductPage() {
     }
   };
 
-  // 2. Qalereya (Çoxlu şəkillər)
   const handleAdditionalImagesUpload = async (e: any) => {
     const files = Array.from(e.target.files) as File[];
     if (files.length === 0) return;
@@ -84,7 +80,6 @@ export default function CreateProductPage() {
     setFormData({ ...formData, images: newImages });
   };
 
-  // 3. Stillər (Versiyalar)
   const addStyleRow = () => {
     setFormData({ ...formData, styles: [...formData.styles, { name: "", image: "" }] });
   };
@@ -116,7 +111,6 @@ export default function CreateProductPage() {
     }
   };
 
-  // --- MƏHSULU YARAT (POST Request) ---
   const submitHandler = async (e: any) => {
     e.preventDefault();
     try {
@@ -140,14 +134,14 @@ export default function CreateProductPage() {
 
   return (
     <div className="flex min-h-screen bg-gray-100 font-sans">
-      {/* Sidebar */}
+      {}
       <AdminSidebar />
 
-      {/* Main Content */}
+      {}
       <main className="ml-64 flex-1 p-8 text-black">
         <div className="max-w-4xl mx-auto">
 
-          {/* Header */}
+          {}
           <div className="flex justify-between items-center mb-6">
             <button onClick={() => router.back()} className="flex items-center gap-2 text-gray-500 hover:text-black transition">
               <FiArrowLeft /> Geri Qayıt
@@ -157,7 +151,7 @@ export default function CreateProductPage() {
 
           <form onSubmit={submitHandler} className="space-y-6 bg-white p-8 rounded-xl shadow-sm border border-gray-200">
 
-            {/* AD VƏ QİYMƏT */}
+            {}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Məhsulun Adı</label>
@@ -181,7 +175,7 @@ export default function CreateProductPage() {
               </div>
             </div>
 
-            {/* --- 1. ƏSAS ŞƏKİL --- */}
+            {}
             <div className="p-4 bg-gray-50 rounded-lg border border-gray-200 border-dashed">
               <label className="block text-sm font-medium text-gray-700 mb-3">Əsas Şəkil</label>
               <div className="flex items-center gap-6">
@@ -198,7 +192,7 @@ export default function CreateProductPage() {
               </div>
             </div>
 
-            {/* --- 2. QALEREYA --- */}
+            {}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-3">Qalereya (Əlavə şəkillər)</label>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-3">
@@ -222,7 +216,7 @@ export default function CreateProductPage() {
               </div>
             </div>
 
-            {/* --- 3. STİLLƏR (VERSIYALAR) --- */}
+            {}
             <div className="border-t border-gray-100 pt-6">
               <div className="flex justify-between items-center mb-4">
                 <label className="block text-sm font-medium text-gray-700">Məhsul Versiyaları / Stillər</label>
@@ -234,7 +228,7 @@ export default function CreateProductPage() {
               <div className="space-y-3">
                 {formData.styles.map((style, index) => (
                   <div key={index} className="flex items-center gap-4 bg-gray-50 p-3 rounded-lg border border-gray-200">
-                    {/* Ad */}
+                    {}
                     <div className="w-1/3">
                       <input
                         type="text"
@@ -245,7 +239,7 @@ export default function CreateProductPage() {
                       />
                     </div>
 
-                    {/* Şəkil */}
+                    {}
                     <div className="flex-1 flex items-center gap-3">
                       {style.image ? (
                         <img src={`http://localhost:5001${style.image}`} className="w-10 h-10 object-cover rounded border border-gray-300" />
@@ -255,7 +249,7 @@ export default function CreateProductPage() {
                       <input type="file" onChange={(e) => handleStyleImageUpload(index, e)} className="text-xs text-gray-500 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300 cursor-pointer" />
                     </div>
 
-                    {/* Sil */}
+                    {}
                     <button type="button" onClick={() => removeStyleRow(index)} className="text-gray-400 hover:text-red-500 p-2 transition">
                       <FiTrash2 />
                     </button>
@@ -265,7 +259,7 @@ export default function CreateProductPage() {
               </div>
             </div>
 
-            {/* DİGƏR SAHƏLƏR */}
+            {}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-gray-100">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Brend</label>

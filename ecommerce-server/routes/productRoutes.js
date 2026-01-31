@@ -9,19 +9,17 @@ const {
     createProductReview
 } = require('../controllers/productController');
 
-// "admin" middleware-ni əlavə etdik (Vacibdir!)
 const { protect, admin } = require('../middleware/authMiddleware');
 
 router.route('/')
-    .get(getProducts) // Hər kəs görə bilər
-    .post(protect, admin, createProduct); // Yalnız Admin yarada bilər
+    .get(getProducts) 
+    .post(protect, admin, createProduct); 
 
 router.route('/:id')
-    .get(getProductById) // Hər kəs baxa bilər
-    .delete(protect, admin, deleteProduct) // Yalnız Admin silə bilər
-    .put(protect, admin, updateProduct);   // Yalnız Admin dəyişə bilər
+    .get(getProductById) 
+    .delete(protect, admin, deleteProduct) 
+    .put(protect, admin, updateProduct);   
 
-// Rəy yazmaq üçün Admin olmağa ehtiyac yoxdur, sadəcə login olmaq kifayətdir
 router.route('/:id/reviews').post(protect, createProductReview);
 
 module.exports = router;

@@ -15,7 +15,7 @@ export default function ContactPage() {
     });
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        // For checkbox inputs, the `checked` property exists on HTMLInputElement.
+        
         const target = e.target as HTMLInputElement;
         const { name, value, type, checked } = target;
         setFormData(prev => ({
@@ -31,20 +31,19 @@ export default function ContactPage() {
             return;
         }
         console.log('Form submitted:', formData);
-        // Handle form submission here
+        
     };
 
     return (
         <><div className=" bg-gray-900">
 
-
-            {/* Hero Section with Contact Info and Form */}
+            {}
             <div className="relative bg-gradient-to-br from-gray-800 to-gray-900">
-                {/* Background Image Overlay */}
+                {}
                 <div className="absolute inset-0 bg-[url('https://media.wired.com/photos/639bf35a24c352e627eccc43/3:2/w_2560%2Cc_limit/Ragnaro%25CC%2588k-culture-ar1qdh.jpg')] bg-cover bg-center opacity-30"></div>
 
                 <div className="relative max-w-7xl mx-auto px-6 py-20 grid grid-cols-1 lg:grid-cols-2 gap-12">
-                    {/* Left Side - Contact Information */}
+                    {}
                     <div className="text-white space-y-8">
                         <div>
                             <h1 className="text-5xl font-bold mb-6">Contact</h1>
@@ -87,10 +86,6 @@ export default function ContactPage() {
                             </div>
                         </div>
                     </div>
-
-
-
-
 
                     <SendEmail />
 

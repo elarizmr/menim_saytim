@@ -28,7 +28,6 @@ const FeaturedGames = () => {
     const { updateCartCount } = useCart();
     const [localToken, setLocalToken] = useState<string | null>(null);
 
-    // Sync auth logic
     useEffect(() => {
         if (typeof window !== 'undefined') {
             const userInfo = localStorage.getItem('userInfo');
@@ -46,12 +45,11 @@ const FeaturedGames = () => {
     const activeToken = hookToken || localToken;
     const userIsAuthenticated = !!activeToken || isAuthenticated;
 
-    // --- EXACT IMAGE LOGIC FROM DETAIL PAGE ---
     const getImageUrl = (url: any) => {
         if (!url) return '';
         if (typeof url === 'object') return '';
         if (url.startsWith('http')) return url;
-        // This assumes your backend is on 5001 as per your detail page code
+        
         return `http://localhost:5001${url}`;
     };
 
@@ -100,7 +98,7 @@ const FeaturedGames = () => {
                 const response = await apiCall('/products');
                 if (!response.ok) throw new Error('Failed to fetch games');
                 const data = await response.json();
-                // ONLY SHOW 4 ITEMS
+                
                 setGames(data.slice(-10).reverse().slice(0, 4));
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'Error fetching games');
@@ -120,7 +118,7 @@ const FeaturedGames = () => {
                     {games.map((game) => (
                         <div key={game._id} className="group relative bg-neutral-950 border border-neutral-800 rounded-xl overflow-hidden hover:border-red-600/50 transition-all duration-500 shadow-lg hover:shadow-[0_0_30px_rgba(220,38,38,0.15)]">
 
-                            {/* Corrected Image URL Logic */}
+                            {}
                             <Link href={`/product/${game._id}`} className="block relative h-95 overflow-hidden bg-neutral-900">
                                 <img
                                     src={getImageUrl(game.image)}

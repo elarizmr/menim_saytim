@@ -6,16 +6,15 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function OrderDetailsPage({ params }: { params: Promise<{ id: string }> }) {
-  // Next.js 15 istifadə edirsənsə 'use' lazımdır, yoxsa birbaşa params.id
+  
   const { id } = use(params);
   const router = useRouter();
 
   const [order, setOrder] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(""); // Xətanı tutmaq üçün
+  const [error, setError] = useState(""); 
   const [userInfo, setUserInfo] = useState<any>(null);
 
-  // Məlumatları gətir
   useEffect(() => {
     const fetchOrder = async () => {
       try {
@@ -32,13 +31,12 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
 
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
 
-        // Backend sorğusu
         const { data } = await axios.get(`http://localhost:5001/api/orders/${id}`, config);
         setOrder(data);
 
       } catch (err: any) {
         console.error(err);
-        // Xəta olsa, səhifədən atmaq əvəzinə ekrana yazırıq
+        
         setError(err.response?.data?.message || err.message || "Sifariş tapılmadı");
       } finally {
         setLoading(false);
@@ -48,7 +46,6 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
     fetchOrder();
   }, [id]);
 
-  // --- ADMIN ACTIONS ---
   const deliverHandler = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
@@ -67,15 +64,12 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
     } catch (err) { alert("Xəta baş verdi"); }
   };
 
-  // --- RENDERING (Ekrana çıxan hissə) ---
-
   if (loading) return (
     <div className="min-h-screen bg-black text-white flex items-center justify-center">
       <h1 className="text-2xl animate-pulse">Sifariş Yüklənir...</h1>
     </div>
   );
 
-  // Əgər xəta varsa, bunu göstər (Home-a atma!)
   if (error) return (
     <div className="min-h-screen bg-black text-red-500 flex flex-col items-center justify-center gap-4 p-10 text-center">
       <h1 className="text-3xl font-bold">XƏTA BAŞ VERDİ</h1>
@@ -91,7 +85,7 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
   return (
     <div className="min-h-screen bg-black text-white pt-24 px-4 md:px-20 font-sans pb-10">
 
-      {/* Header */}
+      {}
       <div className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-xl md:text-2xl font-bold text-red-600">ORDER: {order._id}</h1>
@@ -103,10 +97,10 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
       </div>
 
       <div className="grid md:grid-cols-3 gap-8">
-        {/* Sol Tərəf */}
+        {}
         <div className="md:col-span-2 space-y-6">
 
-          {/* Shipping Info */}
+          {}
           <div className="border border-gray-800 p-6 rounded bg-[#111]">
             <h2 className="text-xl font-bold mb-3 border-b border-gray-800 pb-2">Çatdırılma</h2>
             <p><strong className="text-gray-400">Ad:</strong> {order.user?.name}</p>
@@ -123,7 +117,7 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
             )}
           </div>
 
-          {/* Payment Info */}
+          {}
           <div className="border border-gray-800 p-6 rounded bg-[#111]">
             <h2 className="text-xl font-bold mb-3 border-b border-gray-800 pb-2">Ödəniş</h2>
             <p><strong className="text-gray-400">Metod:</strong> {order.paymentMethod}</p>
@@ -135,7 +129,7 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
             )}
           </div>
 
-          {/* Order Items */}
+          {}
           <div className="border border-gray-800 p-6 rounded bg-[#111]">
             <h2 className="text-xl font-bold mb-3 border-b border-gray-800 pb-2">Məhsullar</h2>
             {order.orderItems?.map((item: any, index: number) => (
@@ -154,7 +148,7 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
           </div>
         </div>
 
-        {/* Sağ Tərəf - Summary */}
+        {}
         <div className="md:col-span-1 space-y-6">
           <div className="border border-gray-800 p-6 rounded bg-[#111] sticky top-24">
             <h2 className="text-xl font-bold mb-4 border-b border-gray-800 pb-2">Yekun</h2>
@@ -166,7 +160,7 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
               <span className="text-red-500">${order.totalPrice}</span>
             </div>
 
-            {/* ADMIN BUTTONS */}
+            {}
             {userInfo && userInfo.isAdmin && (
               <div className="mt-8 pt-6 border-t border-gray-700 space-y-3">
                 {!order.isPaid && (

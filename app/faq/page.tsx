@@ -58,7 +58,7 @@ export default function FAQSection() {
         </div>
       </div>
 
-      {/* FAQ Section */}
+      {}
       <div className="px-8 md:px-16 lg:px-32 py-16">
         <h2 className="text-4xl md:text-5xl font-bold mb-12">About Shop</h2>
         

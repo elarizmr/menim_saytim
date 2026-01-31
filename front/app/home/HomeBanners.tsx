@@ -5,7 +5,7 @@ import { FiHeart, FiZap, FiEye, FiShoppingCart, FiArrowRight } from "react-icons
 import Link from "next/link";
 
 const HeroSection = () => {
-    // Countdown Timer State
+    
     const [timeLeft, setTimeLeft] = useState({
         days: 68,
         hours: 4,
@@ -49,9 +49,9 @@ const HeroSection = () => {
             <div className="max-w-390 mx-auto">
                 <div className="grid grid-cols-1 lg:grid-cols-[450px_1fr_450px] gap-5">
 
-                    {/* Left Card - Warhammer 40,000 Darktide */}
+                    {}
                     <div className="relative overflow-hidden rounded-3xl group h-[700px]">
-                        {/* Background Image */}
+                        {}
                         <div className="absolute inset-0">
                             <img
                                 src="https://ew.com/thmb/4lmLC5Ark8X7GwPpaATjk738Xao=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/god-of-war-2018-2000-408387a68b78478aaa52d04b8a99c0a0.jpg"
@@ -61,7 +61,7 @@ const HeroSection = () => {
                             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
                         </div>
 
-                        {/* Action Buttons */}
+                        {}
                         <div className="absolute top-6 right-6 flex flex-col gap-3 z-10">
                             <button className="w-12 h-12 bg-white rounded-xl text-black flex items-center justify-center hover:bg-[#E60023] hover:text-white transition-all duration-300">
                                 <FiHeart className="text-xl" />
@@ -74,9 +74,9 @@ const HeroSection = () => {
                             </button>
                         </div>
 
-                        {/* Content */}
+                        {}
                         <div className="relative z-10 p-8 flex flex-col justify-end h-full">
-                            {/* Countdown Timer */}
+                            {}
                             <div className="mb-6 bg-[#E60023] rounded-2xl p-4 flex items-center justify-center gap-2 w-full">
                                 <FiZap className="text-white text-xl" />
                                 <div className="flex items-center gap-1 text-white font-bold text-xl">
@@ -90,15 +90,15 @@ const HeroSection = () => {
                                 </div>
                             </div>
 
-                            {/* Category */}
+                            {}
                             <p className="text-white text-sm font-medium mb-2">God of War Deluxe</p>
 
-                            {/* Title */}
+                            {}
                             <h2 className="text-white text-3xl font-bold mb-3">
                                 Pre-Order
                             </h2>
 
-                            {/* Rating */}
+                            {}
                             <div className="flex gap-1 mb-4">
                                 {[1, 2, 3].map((star) => (
                                     <svg key={star} className="w-5 h-5 fill-[#E60023]" viewBox="0 0 20 20">
@@ -112,13 +112,13 @@ const HeroSection = () => {
                                 ))}
                             </div>
 
-                            {/* Price */}
+                            {}
                             <div className="mb-5">
                                 <span className="text-white text-3xl font-bold">$70.00</span>
                                 <span className="text-red-500 text-xl line-through ml-2">$76.00</span>
                             </div>
 
-                            {/* Size Selector */}
+                            {}
                             <div className="mb-5">
                                 <label className="text-white text-sm font-medium mb-2 block">Size:</label>
                                 <select className="w-full bg-black/60 border border-gray-700 text-white rounded-xl px-4 py-3.5 outline-none">
@@ -129,7 +129,7 @@ const HeroSection = () => {
                                 </select>
                             </div>
 
-                            {/* Add to Cart Button */}
+                            {}
                             <button className="w-full bg-[#E60023] cursor-wait text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-3 hover:bg-[#c50020] transition-all duration-300">
                                 Preorder Now
                                 <FiShoppingCart className="text-xl" />
@@ -137,7 +137,7 @@ const HeroSection = () => {
                         </div>
                     </div>
 
-                    {/* Middle Card - Best Offer */}
+                    {}
                     <div className="relative overflow-hidden rounded-3xl group ">
                         <div className="absolute inset-0">
                             <img
@@ -159,10 +159,10 @@ const HeroSection = () => {
                         </div>
                     </div>
 
-                    {/* Right Column - Two Cards */}
+                    {}
                     <div className="flex flex-col gap-5">
 
-                        {/* Top Card - Snacks in Pocket */}
+                        {}
                         <div className="relative overflow-hidden rounded-3xl group h-[337.5px]">
                             <div className="absolute inset-0">
                                 <img
@@ -187,7 +187,7 @@ const HeroSection = () => {
                             </div>
                         </div>
 
-                        {/* Bottom Card - Earning Back */}
+                        {}
                         <div className="relative overflow-hidden rounded-3xl group h-[337.5px]">
                             <div className="absolute inset-0">
                                 <img

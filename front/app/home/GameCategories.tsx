@@ -43,7 +43,7 @@ const BestsellersCategories = () => {
         <section className=" py-12 px-4 lg:px-8">
             <div className="max-w-390 mx-auto">
 
-                {/* Header */}
+                {}
                 <div className="flex items-center justify-between mb-10">
                     <h2 className="text-4xl font-bold">
                         Bestsellers Categories
@@ -54,14 +54,14 @@ const BestsellersCategories = () => {
                     </Link>
                 </div>
 
-                {/* Categories Grid */}
+                {}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                     {categories.map((category, index) => (
                         <div
                             key={index}
                             className="relative overflow-hidden rounded-3xl group h-[300px] "
                         >
-                            {/* Background Image */}
+                            {}
                             <div className="absolute inset-0">
                                 <img
                                     src={category.image}
@@ -71,7 +71,7 @@ const BestsellersCategories = () => {
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
                             </div>
 
-                            {/* Content */}
+                            {}
                             <div className="relative z-10 p-6 flex flex-col justify-end h-full">
                                 <h3 className="text-white text-2xl font-bold mb-4">
                                     {category.title}

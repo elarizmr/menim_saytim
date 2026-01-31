@@ -34,7 +34,7 @@ export default function Profile() {
 
             if (!response.ok) {
                 if (response.status === 401) {
-                    // Token expired
+                    
                     localStorage.removeItem('token');
                     localStorage.removeItem('user');
                     router.push('/login');

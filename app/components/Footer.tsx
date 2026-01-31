@@ -7,18 +7,18 @@ const Footer = () => {
     return (
         <footer className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white overflow-hidden">
 
-            {/* Decorative Background Elements */}
+            {}
             <div className="absolute inset-0 opacity-5">
                 <div className="absolute top-0 left-0 w-96 h-96 bg-[#E60023] rounded-full blur-3xl"></div>
                 <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#ff1744] rounded-full blur-3xl"></div>
             </div>
 
-            {/* Red Accent Wave */}
+            {}
             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#E60023] via-[#ff1744] to-[#E60023]"></div>
 
             <div className="relative max-w-[1600px] mx-auto px-4 lg:px-8">
 
-                {/* Newsletter Section */}
+                {}
                 <div className="py-12 border-b border-gray-700">
                     <div className="flex flex-col md:flex-row items-center justify-between gap-6">
                         <div className="text-center md:text-left">
@@ -44,10 +44,10 @@ const Footer = () => {
                     </div>
                 </div>
 
-                {/* Main Footer Content */}
+                {}
                 <div className="py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
 
-                    {/* About Section */}
+                    {}
                     <div>
                         <img
                             src="https://game-workdo.myshopify.com/cdn/shop/files/Game.png?v=1675229751"
@@ -73,7 +73,7 @@ const Footer = () => {
                         </div>
                     </div>
 
-                    {/* Quick Links */}
+                    {}
                     <div>
                         <h4 className="text-lg font-bold mb-6 relative inline-block">
                             Quick Links
@@ -91,7 +91,7 @@ const Footer = () => {
                         </ul>
                     </div>
 
-                    {/* Customer Service */}
+                    {}
                     <div>
                         <h4 className="text-lg font-bold mb-6 relative inline-block">
                             Customer Service
@@ -109,7 +109,7 @@ const Footer = () => {
                         </ul>
                     </div>
 
-                    {/* Contact Info */}
+                    {}
                     <div>
                         <h4 className="text-lg font-bold mb-6 relative inline-block">
                             Get In Touch
@@ -152,7 +152,7 @@ const Footer = () => {
                     </div>
                 </div>
 
-                {/* Bottom Bar */}
+                {}
                 <div className="py-6 border-t border-gray-700">
                     <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                         <div className="text-center md:text-left">
@@ -181,7 +181,7 @@ const Footer = () => {
                 </div>
             </div>
 
-            {/* Animated Gradient Line at Bottom */}
+            {}
             <div className="h-1 bg-gradient-to-r from-[#E60023] via-[#ff1744] to-[#E60023] animate-gradient"></div>
 
             <style jsx>{`

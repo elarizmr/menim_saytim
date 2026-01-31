@@ -22,13 +22,13 @@ interface Product {
     price: number;
     image: string;
     images: string[];
-    category: any; // String və ya Object ola bilər deyə 'any' etdim
-    brand: any;    // String və ya Object ola bilər deyə 'any' etdim
+    category: any; 
+    brand: any;    
     countInStock: number;
     rating: number;
     numReviews: number;
     description: string;
-    styles: any[]; // String və ya Object ola bilər
+    styles: any[]; 
     style: string;
     reviews: Review[];
     createdAt: string;
@@ -40,28 +40,23 @@ const ProductDetailPage = () => {
     const { user, token: hookToken, isAuthenticated, loading: authLoading } = useAuth();
     const { updateCartCount } = useCart();
 
-    // --- KÖMƏKÇİ FUNKSİYALAR ---
-
-    // 1. Şəkil linkini düzəldən funksiya
     const getImageUrl = (url: any) => {
         if (!url) return '';
-        if (typeof url === 'object') return ''; // Əgər səhvən obyekt gəlibsə, boş qaytar
+        if (typeof url === 'object') return ''; 
         if (url.startsWith('http')) return url;
         return `http://localhost:5001${url}`;
     };
 
-    // 2. Obyekt Xətasını həll edən funksiya (Brand, Category, Styles üçün)
     const renderValue = (value: any) => {
         if (!value) return '';
-        // Əgər sadə yazıdırsa, olduğu kimi qaytar
+        
         if (typeof value === 'string') return value;
-        // Əgər obyektdirsə (məsələn {name: 'Asus', _id: ...}), adını qaytar
+        
         if (typeof value === 'object') {
             return value.name || value.title || value.value || 'Unknown';
         }
         return String(value);
     };
-    // ---------------------------
 
     const [product, setProduct] = useState<Product | null>(null);
     const [loading, setLoading] = useState(true);
@@ -243,7 +238,6 @@ const ProductDetailPage = () => {
         );
     }
 
-    // Şəkilləri hazırlayırıq (Objects gələrsə filtr edirik)
     const allImages = [product.image, ...(product.images || [])].filter(item => typeof item === 'string');
 
     return (
@@ -317,11 +311,11 @@ const ProductDetailPage = () => {
                     <div className="space-y-8">
                         <div>
                             <div className="flex items-center gap-4 mb-4">
-                                {/* DÜZƏLİŞ: Brand Obyektdirsə adını, deyilsə özünü yaz */}
+                                {}
                                 <span className="px-3 py-1 bg-neutral-900 border border-neutral-700 rounded text-[10px] font-black tracking-[0.2em] text-neutral-400 uppercase">
                                     {renderValue(product.brand)}
                                 </span>
-                                {/* DÜZƏLİŞ: Category Obyektdirsə adını, deyilsə özünü yaz */}
+                                {}
                                 <span className="px-3 py-1 bg-red-900/20 border border-red-900/50 rounded text-[10px] font-black tracking-[0.2em] text-red-500 uppercase shadow-[0_0_10px_rgba(220,38,38,0.2)]">
                                     {renderValue(product.category)}
                                 </span>
@@ -416,7 +410,7 @@ const ProductDetailPage = () => {
                                                 : 'bg-transparent text-neutral-400 border-neutral-800 hover:border-neutral-500 hover:text-white'
                                                 }`}
                                         >
-                                            {/* DÜZƏLİŞ: Styles içində də Obyekt gələ bilər */}
+                                            {}
                                             {renderValue(s)}
                                         </button>
                                     ))}
@@ -433,12 +427,12 @@ const ProductDetailPage = () => {
                             <div className="grid grid-cols-2 gap-4 text-xs">
                                 <div className="p-3 bg-black/40 rounded border border-neutral-800">
                                     <span className="block text-neutral-500 mb-1">BRAND</span>
-                                    {/* DÜZƏLİŞ: Yenə Brand yoxlanışı */}
+                                    {}
                                     <span className="text-white font-bold">{renderValue(product.brand)}</span>
                                 </div>
                                 <div className="p-3 bg-black/40 rounded border border-neutral-800">
                                     <span className="block text-neutral-500 mb-1">CATEGORY</span>
-                                    {/* DÜZƏLİŞ: Yenə Category yoxlanışı */}
+                                    {}
                                     <span className="text-white font-bold">{renderValue(product.category)}</span>
                                 </div>
                             </div>

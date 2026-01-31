@@ -13,7 +13,7 @@ export default function ForgotPassword() {
     setError("");
 
     try {
-      // Backend-ə sorğu göndəririk (Port 5001)
+      
       const res = await axios.post("http://127.0.0.1:5001/api/users/forgot-password", { email });
       setMessage("Email uğurla göndərildi! Zəhmət olmasa poçt qutunuzu yoxlayın.");
     } catch (err: any) {

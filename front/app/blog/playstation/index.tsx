@@ -3,7 +3,7 @@ export default function PlayStationTicker() {
     <div className="bg-black py-0">
       <div className="w-full bg-gradient-to-r from-blue-900 to-blue-600 py-3 overflow-hidden shadow-lg shadow-blue-500/50">
         <div className="flex animate-scroll">
-          {/* Дублируем контент для бесшовной анимации */}
+          {}
           {[...Array(2)].map((_, i) => (
             <div key={i} className="flex shrink-0">
               {[...Array(10)].map((_, j) => (

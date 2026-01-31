@@ -30,7 +30,6 @@ const ArcadePage = () => {
           src="https://i.ytimg.com/vi/VwXXKNC8GAE/maxresdefault.jpg" 
           alt="" 
         />
-        
 
         <div className='absolute inset-0 flex items-center justify-start px-8 md:px-20'>
           <div className='flex flex-col gap-4 md:gap-8'>
@@ -52,8 +51,7 @@ const ArcadePage = () => {
           </div>
         </div>
       </div>
-     
-      
+
       <div className="px-8 md:px-20">
         <ul className='flex flex-wrap gap-4 md:gap-6 mt-10 text-xs md:text-sm font-bold'>
           <li>WorkDo</li>
@@ -69,7 +67,6 @@ const ArcadePage = () => {
         </p>
       </div>
 
-
       <div className='mt-10 px-8 md:px-20'>
         <div className='flex flex-col lg:flex-row gap-8'>
           
@@ -80,8 +77,7 @@ const ArcadePage = () => {
               alt="" 
             />
           </div>
-          
-   
+
           <div className='lg:w-80 flex-shrink-0'>
             {cards.map((card, index) => (
               <div 
@@ -109,7 +105,6 @@ const ArcadePage = () => {
         </div>
       </div>
 
-   
       <div className="px-8 md:px-20">
         <h1 className='text-lg md:text-xl font-bold mt-8 leading-relaxed'>
           Many arcade games have short levels, simple and intuitive control schemes, and rapidly increasing 

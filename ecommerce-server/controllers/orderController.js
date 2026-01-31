@@ -1,9 +1,6 @@
 const Order = require('../models/Order');
-// User modelini də bura əlavə edirik ki, populate işləsin
 const User = require('../models/User'); 
 
-// @desc    Yeni sifariş yarat
-// @route   POST /api/orders
 const addOrderItems = async (req, res) => {
   try {
     const {
@@ -39,11 +36,9 @@ const addOrderItems = async (req, res) => {
   }
 };
 
-// @desc    Sifarişi ID ilə gətir
-// @route   GET /api/orders/:id
 const getOrderById = async (req, res) => {
   try {
-    // populate('user') istifadə edərkən User modelinin mövcud olduğundan əmin oluruq
+   
     const order = await Order.findById(req.params.id).populate(
       'user',
       'name email'
@@ -55,8 +50,8 @@ const getOrderById = async (req, res) => {
       res.status(404).json({ message: 'Sifariş tapılmadı' });
     }
   } catch (error) {
-    console.error("Get Order Error:", error); // Terminalda xətanı göstər
-    // Əgər ID formatı səhvdirsə (məsələn undefined gedibsə)
+    console.error("Get Order Error:", error); 
+    
     if (error.kind === 'ObjectId') {
         return res.status(404).json({ message: 'Yanlış Sifariş ID-si' });
     }
@@ -64,8 +59,6 @@ const getOrderById = async (req, res) => {
   }
 };
 
-// @desc    Sifarişi ÖDƏNİLDİ kimi işarələ
-// @route   PUT /api/orders/:id/pay
 const updateOrderToPaid = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
@@ -73,7 +66,7 @@ const updateOrderToPaid = async (req, res) => {
     if (order) {
       order.isPaid = true;
       order.paidAt = Date.now();
-      // Dummy payment result
+      
       order.paymentResult = {
         id: req.body.id || 'id_null',
         status: req.body.status || 'completed',
@@ -92,8 +85,6 @@ const updateOrderToPaid = async (req, res) => {
   }
 };
 
-// @desc    Sifarişi ÇATDIRILDI kimi işarələ
-// @route   PUT /api/orders/:id/deliver
 const updateOrderToDelivered = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
@@ -113,8 +104,6 @@ const updateOrderToDelivered = async (req, res) => {
   }
 };
 
-// @desc    İstifadəçinin öz sifarişləri
-// @route   GET /api/orders/myorders
 const getMyOrders = async (req, res) => {
   try {
     const orders = await Order.find({ user: req.user._id });

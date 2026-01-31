@@ -3,11 +3,10 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { apiCall } from '../utils/api';
-// 👇 Added these imports to make the Card Button work
+
 import { useAuth } from '../hooks/useAuth';
 import { useCart } from '../context/CartContsxt';
 
-// --- Types ---
 interface Product {
     _id: string;
     name: string;
@@ -30,7 +29,7 @@ interface Filters {
 }
 
 const ShopPage = () => {
-    // --- State ---
+    
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [filters, setFilters] = useState<Filters>({
@@ -45,13 +44,11 @@ const ShopPage = () => {
     const [brands, setBrands] = useState<string[]>([]);
     const [expandFilters, setExpandFilters] = useState(true);
 
-    // --- Cart & Auth State (Added for the Card Button) ---
     const [addingId, setAddingId] = useState<string | null>(null);
     const { token: hookToken, isAuthenticated } = useAuth();
     const { updateCartCount } = useCart();
     const [localToken, setLocalToken] = useState<string | null>(null);
 
-    // --- Auth Sync Logic ---
     useEffect(() => {
         if (typeof window !== 'undefined') {
             const userInfo = localStorage.getItem('userInfo');
@@ -69,7 +66,6 @@ const ShopPage = () => {
     const activeToken = hookToken || localToken;
     const userIsAuthenticated = !!activeToken || isAuthenticated;
 
-    // --- ADD TO CART HANDLER (Copied from LatestArrivals) ---
     const addToCartHandler = async (product: Product) => {
         if (!userIsAuthenticated) {
             alert("Səbətə məhsul atmaq üçün zəhmət olmasa giriş edin!");
@@ -93,7 +89,7 @@ const ShopPage = () => {
             if (res.ok) {
                 alert(`✅ "${product.name}" səbətə əlavə olundu!`);
                 updateCartCount();
-                // Reload page on success as requested
+                
                 window.location.reload();
             } else {
                 const data = await res.json();
@@ -107,7 +103,6 @@ const ShopPage = () => {
         }
     };
 
-    // --- Product Fetching Logic (UNCHANGED) ---
     const fetchProducts = async (filterParams: Filters) => {
         setLoading(true);
         try {
@@ -153,12 +148,12 @@ const ShopPage = () => {
         fetchFilterOptions();
         fetchProducts(filters);
     }, []);
-    // --- EXACT IMAGE LOGIC FROM DETAIL PAGE ---
+    
     const getImageUrl = (url: any) => {
         if (!url) return '';
         if (typeof url === 'object') return '';
         if (url.startsWith('http')) return url;
-        // This assumes your backend is on 5001 as per your detail page code
+        
         return `http://localhost:5001${url}`;
     };
     const handleFilterChange = (key: keyof Filters, value: string | number) => {
@@ -180,8 +175,6 @@ const ShopPage = () => {
         fetchProducts(newFilters);
     };
 
-    // --- UI Components ---
-
     return (
         <div className="min-h-screen bg-neutral-950 text-neutral-200 font-sans selection:bg-purple-500/30">
 
@@ -197,7 +190,7 @@ const ShopPage = () => {
                             Hardware <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-700">Vault</span>
                         </h1>
                         <p className="text-neutral-500 mt-2 font-mono text-sm tracking-wide">
-                            // HIGH_PERFORMANCE_GEAR
+                            
                         </p>
                     </div>
                     <div className="font-mono text-xs text-neutral-600">
@@ -327,12 +320,12 @@ const ShopPage = () => {
                                 <button onClick={resetFilters} className="text-red-500 hover:text-red-400 underline decoration-red-500/30 underline-offset-4">Clear Filters</button>
                             </div>
                         ) : (
-                            // 👇 GRID WITH THE NEW CARD DESIGN
+                            
                             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-10">
                                 {products.map((product) => (
                                     <div key={product._id} className="group relative bg-neutral-950 border border-neutral-800 rounded-xl overflow-hidden hover:border-red-600/50 transition-all duration-500 shadow-lg hover:shadow-[0_0_30px_rgba(220,38,38,0.15)]">
 
-                                        {/* Corrected Image URL Logic */}
+                                        {}
                                         <Link href={`/product/${product._id}`} className="block relative h-95 overflow-hidden bg-neutral-900">
                                             <img
                                                 src={getImageUrl(product.image)}

@@ -10,7 +10,6 @@ export default function CheckoutPage() {
   const [cartItems, setCartItems] = useState<any[]>([]);
   const [userInfo, setUserInfo] = useState<any>(null);
 
-  // Form məlumatları
   const [formData, setFormData] = useState({
     address: "",
     city: "",
@@ -22,46 +21,41 @@ export default function CheckoutPage() {
     cvv: "",
   });
 
-  // --- Hesablamalar ---
   const itemsPrice = cartItems.reduce((acc, item) => {
-    // Məhsulun qiyməti yoxdursa 0 götür
+    
     const price = item.product?.price || 0; 
     return acc + price * item.quantity;
   }, 0);
   
   const shippingPrice = itemsPrice > 100 ? 0 : 10;
-  const taxPrice = itemsPrice * 0.15; // 15% vergi
+  const taxPrice = itemsPrice * 0.15; 
   const totalPrice = itemsPrice + shippingPrice + taxPrice;
 
-  // --- Tokeni almaq ---
   const getToken = () => {
     if (typeof window !== 'undefined') {
       const u = localStorage.getItem('userInfo');
-      // Token yoxdursa null qaytar
+      
       return u ? JSON.parse(u).token : null;
     }
     return null;
   };
 
-  // --- Şəkilləri düzəldən funksiya ---
   const resolveImage = (img: string) => {
     if (!img) return '/placeholder.png';
     if (img.startsWith('http')) return img;
-    // Backend 5001-dədir, şəkillər oradan gəlir
+    
     return `http://localhost:5001${img.startsWith('/') ? '' : '/'}${img}`;
   };
 
-  // --- Səbəti Serverdən Gətirən Funksiya (DÜZƏLDİLDİ) ---
   const fetchCartFromServer = async () => {
     try {
       const token = getToken();
       
       if (!token) {
-        // Token yoxdursa, deməli giriş edilməyib
+        
         return; 
       }
 
-      // Birbaşa 5001 portuna müraciət edirik
       const res = await fetch(`http://localhost:5001/api/cart`, {
         method: 'GET',
         headers: { 
@@ -72,7 +66,7 @@ export default function CheckoutPage() {
       
       if (res.ok) {
         const data = await res.json();
-        // Əgər səbət boşdursa və ya data gəlməyibsə
+        
         if (!data || data.length === 0) {
            console.log("Səbət boşdur");
            return;
@@ -81,7 +75,7 @@ export default function CheckoutPage() {
       } else {
         console.error("Server xətası:", res.status);
         if (res.status === 401) {
-            // Tokenin vaxtı bitibsə
+            
             localStorage.removeItem("userInfo");
             router.push("/login");
         }
@@ -94,7 +88,7 @@ export default function CheckoutPage() {
   };
 
   useEffect(() => {
-    // 1. User yoxlanışı
+    
     const userStr = localStorage.getItem("userInfo");
     if (!userStr) {
       router.push("/login");
@@ -102,13 +96,11 @@ export default function CheckoutPage() {
     }
     setUserInfo(JSON.parse(userStr));
 
-    // 2. Yaddaşda ünvan varsa gətir
     const savedAddress = JSON.parse(localStorage.getItem("shippingAddress") || "null");
     if (savedAddress) {
       setFormData((prev) => ({ ...prev, ...savedAddress }));
     }
 
-    // 3. Səbəti Serverdən gətir
     fetchCartFromServer();
   }, []);
 
@@ -122,8 +114,7 @@ export default function CheckoutPage() {
 
     try {
       const token = getToken();
-      
-      // Ünvanı yaddaşa yazaq
+
       const addressData = {
         address: formData.address,
         city: formData.city,
@@ -161,7 +152,7 @@ export default function CheckoutPage() {
 
       if (res.ok) {
         alert("Ödəniş uğurlu oldu! Sifarişiniz qəbul edildi. 🎉");
-        router.push(`/order/${data._id}`); // Sifariş səhifəsinə yönləndir
+        router.push(`/order/${data._id}`); 
       } else {
         alert(data.message || "Xəta baş verdi");
       }
@@ -179,7 +170,7 @@ export default function CheckoutPage() {
   return (
     <div className="min-h-screen bg-black text-white font-sans flex flex-col md:flex-row pt-20">
       
-      {/* SOL TƏRƏF - Formalar */}
+      {}
       <div className="w-full md:w-[60%] lg:w-[55%] p-6 md:p-12 md:pl-20 border-r border-gray-800">
         
         <div className="mb-8">
@@ -188,7 +179,7 @@ export default function CheckoutPage() {
 
         <form onSubmit={submitHandler} className="max-w-xl">
           
-          {/* Contact Section */}
+          {}
           <div className="mb-8">
             <h2 className="text-xl font-bold mb-4">Contact</h2>
             <input
@@ -199,7 +190,7 @@ export default function CheckoutPage() {
             />
           </div>
 
-          {/* Delivery Section */}
+          {}
           <div className="mb-8">
             <h2 className="text-xl font-bold mb-4">Delivery Address</h2>
             <div className="space-y-4">
@@ -244,7 +235,7 @@ export default function CheckoutPage() {
             </div>
           </div>
 
-          {/* Payment Section */}
+          {}
           <div className="mb-8">
             <h2 className="text-xl font-bold mb-4">Payment Method</h2>
             
@@ -299,7 +290,7 @@ export default function CheckoutPage() {
             </div>
           </div>
 
-          {/* Pay Button */}
+          {}
           <button
             type="submit"
             disabled={submitting}
@@ -310,13 +301,13 @@ export default function CheckoutPage() {
         </form>
       </div>
 
-      {/* SAĞ TƏRƏF - Order Summary */}
+      {}
       <div className="w-full md:w-[40%] lg:w-[45%] bg-[#111] p-6 md:p-12 border-l border-gray-800">
         <div className="max-w-md sticky top-24">
             
             <h3 className="text-xl font-bold mb-6 text-gray-400 uppercase tracking-widest">Order Summary</h3>
 
-            {/* Products List */}
+            {}
             <div className="space-y-4 mb-8 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
               {cartItems.map((item, index) => (
                 item.product ? (
@@ -349,7 +340,7 @@ export default function CheckoutPage() {
 
             <hr className="border-gray-800 mb-6" />
 
-            {/* Calculations */}
+            {}
             <div className="space-y-3 text-sm text-gray-400">
                <div className="flex justify-between">
                   <span>Subtotal</span>
@@ -369,7 +360,7 @@ export default function CheckoutPage() {
 
             <hr className="border-gray-800 my-6" />
 
-            {/* Total */}
+            {}
             <div className="flex justify-between items-center">
                <span className="text-lg font-normal text-gray-300">Total</span>
                <div className="flex items-end gap-2">

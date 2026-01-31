@@ -1,32 +1,25 @@
 "use client";
-import { useState, use } from "react"; // 'use' import edildi (Next.js 13+ params üçün)
+import { useState, use } from "react"; 
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
 export default function ResetPassword({ params }: { params: Promise<{ token: string }> }) {
-  // params asinxron olduğu üçün onu 'use' ilə və ya Promise kimi açırıq
-  // Sadəlik üçün burada birbaşa state-ə keçirik, params-ı aşağıda istifadə edəcəyik.
-  
+
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
 
-  // Next.js yeni versiyalarında params Promise olur, onu həll edirik:
-  // (Əgər xəta versə, sadəcə params.token yoxlayarıq)
   const [tokenResolved, setTokenResolved] = useState<string>("");
 
-  // Tokeni əldə etmək üçün
   import("react").then(({ use }) => {
-     // Bu hissə bəzən qarışıq ola bilər, sadə yolla gedək:
-     // Next.js App router-də params prop-u birbaşa gəlir.
+
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // params-dan tokeni götürürük (Promise həlli ilə)
+
     const resolvedParams = await params;
     const token = resolvedParams.token;
 

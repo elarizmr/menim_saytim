@@ -16,20 +16,18 @@ interface User {
 }
 
 const Header = () => {
-    // --- 1. STATE DEFINITIONS ---
+    
     const [user, setUser] = useState<User | null>(null);
     const [showDropdown, setShowDropdown] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-    // Logic State (Price and Count)
     const [cartTotal, setCartTotal] = useState(0);
     const [cartCount, setCartCount] = useState(0);
 
     const router = useRouter();
 
-    // --- 2. API & LOGIC (The part that works) ---
     const updateCartData = async () => {
-        // Get URL based on environment
+        
         const RAW_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
         const API_BASE = RAW_URL.replace(/\/api\/?$/, "");
 
@@ -44,11 +42,10 @@ const Header = () => {
 
         try {
             const userInfo = JSON.parse(userInfoString);
-            setUser(userInfo); // Set user for the UI
+            setUser(userInfo); 
 
             const token = userInfo.token;
 
-            // Fetch the cart
             const res = await fetch(`${API_BASE}/api/cart`, {
                 headers: { 'Authorization': `Bearer ${token}` },
                 cache: "no-store"
@@ -57,12 +54,10 @@ const Header = () => {
             if (res.ok) {
                 const data = await res.json();
 
-                // Calculate Total Price
                 const total = data.reduce((acc: number, item: any) => {
                     return acc + ((item.product?.price || 0) * item.quantity);
                 }, 0);
 
-                // Calculate Total Items
                 const count = data.reduce((acc: number, item: any) => acc + item.quantity, 0);
 
                 setCartTotal(total);
@@ -73,11 +68,9 @@ const Header = () => {
         }
     };
 
-    // --- 3. EVENT LISTENERS ---
     useEffect(() => {
-        updateCartData(); // Run on mount
+        updateCartData(); 
 
-        // Listen for updates from other components
         const handleCartUpdate = () => updateCartData();
         window.addEventListener("cartUpdated", handleCartUpdate);
         window.addEventListener("storage", handleCartUpdate);
@@ -99,7 +92,6 @@ const Header = () => {
         window.dispatchEvent(new Event("cartUpdated"));
     };
 
-    // --- 4. RENDER (EXACT DESIGN) ---
     return (
         <header className="w-full relative z-50">
 
@@ -120,11 +112,11 @@ const Header = () => {
                 }
             `}</style>
 
-            {/* ----------------- 1. TOP SECTION (WHITE) ----------------- */}
+            {}
             <div className="bg-white py-5 border-b border-gray-200">
                 <div className="max-w-[1600px] mx-auto px-4 lg:px-8 flex items-center justify-between gap-4">
 
-                    {/* Left Side: Mobile Menu & Logo */}
+                    {}
                     <div className="flex items-center gap-4">
                         <button
                             className="lg:hidden text-2xl text-gray-700 hover:text-[#E60023] transition"
@@ -142,7 +134,7 @@ const Header = () => {
                         </Link>
                     </div>
 
-                    {/* Search Bar - Desktop */}
+                    {}
                     <div className="flex-1 max-w-2xl mx-8 hidden lg:block">
                         <div className="flex items-center bg-gray-200 rounded-full p-1 pl-5">
                             <FiSearch className="text-xl text-gray-500 mr-3" />
@@ -158,7 +150,7 @@ const Header = () => {
                         </div>
                     </div>
 
-                    {/* User & Info */}
+                    {}
                     <div className="flex items-center gap-2 sm:gap-6 text-sm">
                         <div className="hidden xl:flex flex-col text-right">
                             <span className="font-bold text-gray-900 text-sm">Monday - Friday:</span>
@@ -216,12 +208,12 @@ const Header = () => {
                                 </Link>
                             )}
 
-                            {/* --- CART SECTION (Visuals from Design, Data from Logic) --- */}
+                            {}
                             <Link href="/cart" className="flex items-center gap-3 group">
                                 <div className="relative text-2xl sm:text-3xl text-gray-600 group-hover:text-black">
                                     <FiShoppingCart />
 
-                                    {/* Badge Logic */}
+                                    {}
                                     {cartCount > 0 && (
                                         <span className="absolute -top-2 -right-2 bg-[#E60023] text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full font-bold">
                                             {cartCount}
@@ -230,20 +222,20 @@ const Header = () => {
                                 </div>
                                 <div className="hidden sm:block text-right leading-tight">
                                     <span className="block text-xs text-gray-500 font-bold">My Cart:</span>
-                                    {/* Price Logic */}
+                                    {}
                                     <span className="block text-sm font-black text-gray-900">
                                         ${cartTotal.toFixed(2)}
                                     </span>
                                 </div>
                             </Link>
-                            {/* -------------------------------------------------------- */}
+                            {}
 
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* ----------------- 2. BOTTOM SECTION (RED NAVBAR) ----------------- */}
+            {}
             <div className="bg-[#E60023] text-white">
                 <div className="max-w-[1600px] mx-auto px-4 lg:px-8 h-14 flex items-center justify-between">
                     <nav className="hidden lg:flex items-center gap-8 text-sm font-bold uppercase tracking-wide">
@@ -273,7 +265,7 @@ const Header = () => {
                 </div>
             </div>
 
-            {/* ----------------- MOBILE MENU OVERLAY ----------------- */}
+            {}
             {isMobileMenuOpen && (
                 <div className="fixed inset-0 z-50 lg:hidden">
                     <div

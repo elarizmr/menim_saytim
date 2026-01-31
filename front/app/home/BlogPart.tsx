@@ -43,7 +43,7 @@ const BlogArticlesSection = () => {
         <section className="bg-black py-16 px-4 lg:px-8">
             <div className="max-w-390 mx-auto">
 
-                {/* Header */}
+                {}
                 <div className="text-center mb-12">
                     <h2 className="text-white text-4xl lg:text-5xl font-bold mb-6">
                         Blog & Articles

@@ -19,7 +19,7 @@ interface Game {
 }
 
 const LatestArrivals = () => {
-    // --- STATE ---
+    
     const [games, setGames] = useState<Game[]>([]);
     const [allGames, setAllGames] = useState<Game[]>([]);
     const [loading, setLoading] = useState(true);
@@ -27,13 +27,11 @@ const LatestArrivals = () => {
     const [categories, setCategories] = useState<string[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<string>('');
 
-    // Cart State
     const [addingId, setAddingId] = useState<string | null>(null);
     const { token: hookToken, isAuthenticated } = useAuth();
     const { updateCartCount } = useCart();
     const [localToken, setLocalToken] = useState<string | null>(null);
 
-    // --- AUTH LOGIC ---
     useEffect(() => {
         if (typeof window !== 'undefined') {
             const userInfo = localStorage.getItem('userInfo');
@@ -51,7 +49,6 @@ const LatestArrivals = () => {
     const activeToken = hookToken || localToken;
     const userIsAuthenticated = !!activeToken || isAuthenticated;
 
-    // --- CART HANDLER (UPDATED WITH RELOAD) ---
     const addToCartHandler = async (game: Game) => {
         if (!userIsAuthenticated) {
             alert("Səbətə məhsul atmaq üçün zəhmət olmasa giriş edin!");
@@ -60,7 +57,7 @@ const LatestArrivals = () => {
 
         try {
             setAddingId(game._id);
-            // Using hardcoded URL here to match your setup
+            
             const res = await fetch('http://localhost:5001/api/cart/add', {
                 method: 'POST',
                 headers: {
@@ -77,7 +74,6 @@ const LatestArrivals = () => {
                 alert(`✅ "${game.name}" səbətə əlavə olundu!`);
                 updateCartCount();
 
-                // 👇 THIS RELOADS THE PAGE 👇
                 window.location.reload();
             } else {
                 const data = await res.json();
@@ -91,7 +87,6 @@ const LatestArrivals = () => {
         }
     };
 
-    // --- FETCH DATA ---
     useEffect(() => {
         const fetchGames = async () => {
             try {
@@ -121,7 +116,6 @@ const LatestArrivals = () => {
         fetchGames();
     }, []);
 
-    // --- FILTER LOGIC ---
     const handleCategoryFilter = (category: string) => {
         setSelectedCategory(category);
         if (category === '') {
@@ -151,7 +145,7 @@ const LatestArrivals = () => {
         <section className="bg-black py-16 md:py-24">
             <div className="max-w-390 mx-auto px-4 sm:px-6">
 
-                {/* --- HEADER & FILTERS --- */}
+                {}
                 <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-12 gap-6">
                     <div>
                         <span className="text-purple-500 font-mono text-sm font-bold tracking-widest uppercase mb-2 block">
@@ -187,7 +181,7 @@ const LatestArrivals = () => {
                     </div>
                 </div>
 
-                {/* --- GRID & CARDS --- */}
+                {}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                     {games.length > 0 ? (
                         games.slice(0, 4).map((game) => (

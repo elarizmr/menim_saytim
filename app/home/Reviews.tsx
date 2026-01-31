@@ -85,7 +85,7 @@ const TestimonialsSection = () => {
         <section className="bg-black py-16 px-4 lg:px-8">
             <div className="max-w-390 mx-auto">
 
-                {/* Header */}
+                {}
                 <div className="flex items-center justify-between mb-10">
                     <h2 className="text-white text-4xl lg:text-4xl font-bold">
                         Official Reviews
@@ -93,14 +93,14 @@ const TestimonialsSection = () => {
 
                 </div>
 
-                {/* Testimonials Grid */}
+                {}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
                     {testimonials.map((testimonial, index) => (
                         <div
                             key={index}
                             className="bg-white rounded-3xl p-6 hover:shadow-2xl hover:shadow-[#E60023]/20 hover:scale-105 transition-all duration-300 cursor-pointer group"
                         >
-                            {/* Rating */}
+                            {}
                             <div className="flex items-center gap-2 mb-4">
                                 <div className="flex gap-1">
                                     {renderStars(testimonial.rating)}
@@ -110,17 +110,17 @@ const TestimonialsSection = () => {
                                 </span>
                             </div>
 
-                            {/* Title */}
+                            {}
                             <h3 className="text-gray-900 text-xl font-bold mb-3 leading-tight">
                                 {testimonial.title}
                             </h3>
 
-                            {/* Content */}
+                            {}
                             <p className="text-gray-600 text-sm leading-relaxed mb-6">
                                 {testimonial.content}
                             </p>
 
-                            {/* Author Info */}
+                            {}
                             <div className="flex items-center gap-3 pt-4 border-t border-gray-200">
                                 <img
                                     src={testimonial.avatar}

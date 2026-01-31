@@ -5,9 +5,9 @@ const orderSchema = mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: 'User', // <--- BU ÇOX VACİBDİR. 'User' modeli ilə eyni adda olmalıdır.
+      ref: 'User', 
     },
-    // ... digər sahələr ...
+    
     orderItems: [
       {
         name: { type: String, required: true },

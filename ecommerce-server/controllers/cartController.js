@@ -1,6 +1,5 @@
 const User = require('../models/User');
 
-// --- SƏBƏTƏ ƏLAVƏ ET ---
 const addToCart = async (req, res) => {
   try {
     if (!req.user || !req.user._id) {
@@ -20,16 +19,15 @@ const addToCart = async (req, res) => {
       user.cart = [];
     }
 
-    // Məhsul artıq səbətdə varmı?
     const existingItemIndex = user.cart.findIndex(
       (item) => item.product.toString() === productId
     );
 
     if (existingItemIndex > -1) {
-      // Varsa sayını artır
+     
       user.cart[existingItemIndex].quantity += Number(quantity);
     } else {
-      // Yoxdursa yeni əlavə et
+      
       user.cart.push({ product: productId, quantity: Number(quantity) });
     }
 
@@ -43,7 +41,6 @@ const addToCart = async (req, res) => {
   }
 };
 
-// --- SƏBƏTİ GƏTİR ---
 const getCart = async (req, res) => {
   try {
     if (!req.user || !req.user._id) {
@@ -63,7 +60,6 @@ const getCart = async (req, res) => {
       return res.status(200).json([]);
     }
 
-    // Silinmiş (backend-dən silinib amma səbətdə qalan) məhsulları təmizləyirik
     const activeCartItems = user.cart.filter(item => item.product != null);
 
     if (activeCartItems.length !== user.cart.length) {
@@ -79,7 +75,6 @@ const getCart = async (req, res) => {
   }
 };
 
-// --- SƏBƏTDƏKİ SAYI DƏYİŞ (ARTIR/AZALT) ---
 const updateCartItem = async (req, res) => {
   try {
     const { productId, quantity } = req.body;
@@ -98,7 +93,6 @@ const updateCartItem = async (req, res) => {
 
       await user.save();
 
-      // Cavabı dərhal yenilənmiş halda qaytarırıq
       const updatedUser = await User.findById(req.user._id).populate({
         path: 'cart.product',
         strictPopulate: false
@@ -116,10 +110,9 @@ const updateCartItem = async (req, res) => {
   }
 };
 
-// --- YENİ: SƏBƏTDƏN SİL (REMOVE) ---
 const removeFromCart = async (req, res) => {
   try {
-    // Route-dan gələn ID: /api/cart/:id
+    
     const productId = req.params.id;
     const userId = req.user._id;
 
@@ -129,12 +122,10 @@ const removeFromCart = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Massivdən ID-si uyğun gəlməyənləri saxlayırıq (yəni uyğun gələni silirik)
     user.cart = user.cart.filter(item => item.product.toString() !== productId);
 
     await user.save();
 
-    // Frontend-in dərhal yenilənməsi üçün yeni siyahını qaytarırıq
     const updatedUser = await User.findById(userId).populate({
       path: 'cart.product',
       strictPopulate: false
@@ -150,5 +141,4 @@ const removeFromCart = async (req, res) => {
   }
 };
 
-// Module exports-a removeFromCart əlavə etdik
 module.exports = { addToCart, getCart, updateCartItem, removeFromCart };

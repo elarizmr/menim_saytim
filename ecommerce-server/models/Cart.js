@@ -20,12 +20,12 @@ const userSchema = mongoose.Schema(
       required: true,
       default: false,
     },
-    // --- YENİ: Səbət (Cart) hissəsi ---
+    
     cart: [
       {
         product: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: 'Product', // Məhsul modelinə bağlanır
+          ref: 'Product', 
           required: true
         },
         quantity: {
@@ -35,7 +35,7 @@ const userSchema = mongoose.Schema(
         }
       }
     ]
-    // ----------------------------------
+    
   },
   {
     timestamps: true,

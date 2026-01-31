@@ -25,18 +25,13 @@ const ChatBot = () => {
 
     useEffect(scrollToBottom, [messages, isTyping]);
 
-    // ---------------------------------------------------------
-    // THE BOT'S SUPER BRAIN 🧠
-    // ---------------------------------------------------------
     const getBotResponse = (text: string) => {
         const lowerText = text.toLowerCase();
 
-        // Helper to check for multiple keywords
         const contains = (keywords: string[]) => {
             return keywords.some(keyword => lowerText.includes(keyword));
         };
 
-        // --- GREETINGS & BASICS ---
         if (contains(["hello", "hi", "hey", "sup", "yo"]))
             return "Greetings, Player 1! 👋 How can I help you level up today?";
         if (contains(["bye", "goodbye", "later"]))
@@ -46,7 +41,6 @@ const ChatBot = () => {
         if (contains(["thank", "thx"]))
             return "You're welcome! Happy gaming! 🎮";
 
-        // --- SPECIFIC POPULAR GAMES ---
         if (contains(["gta", "grand theft auto"]))
             return "GTA V is in stock! If you're asking about GTA VI, we're all waiting patiently... pre-orders aren't open yet!";
         if (contains(["minecraft", "craft"]))
@@ -64,7 +58,6 @@ const ChatBot = () => {
         if (contains(["roblox", "robux"]))
             return "Oof! We stock Robux gift cards in various amounts. They make great gifts.";
 
-        // --- HARDWARE & ACCESSORIES ---
         if (contains(["controller", "gamepad", "joycon", "stick drift"]))
             return "We sell DualSense (PS5), Xbox Wireless, and Joy-Cons. If you have stick drift, we also sell repair kits or replacements!";
         if (contains(["headset", "headphones", "audio", "mic"]))
@@ -78,7 +71,6 @@ const ChatBot = () => {
         if (contains(["pc", "graphics card", "gpu", "keyboard", "mouse"]))
             return "PC Master Race? 🖥️ We sell mechanical keyboards (Razer/Logitech) and high-performance mice.";
 
-        // --- STORE SERVICES ---
         if (contains(["trade", "sell", "used", "pre-owned"]))
             return "Yes! We accept trade-ins for consoles and physical games. Bring them to our store for a quote.";
         if (contains(["repair", "fix", "broken"]))
@@ -88,7 +80,6 @@ const ChatBot = () => {
         if (contains(["location", "address", "where are you"]))
             return "We are digital right now, but our HQ is located in the Gaming District (Level 1).";
 
-        // --- POLICIES (Shipping, Returns) ---
         if (contains(["price", "cost", "expensive"]))
             return "Our prices are competitive! New AAA games are usually $60-$70, while indies and older titles are cheaper.";
         if (contains(["ship", "delivery", "long"]))
@@ -98,13 +89,11 @@ const ChatBot = () => {
         if (contains(["warranty", "guarantee"]))
             return "New consoles come with a 1-year manufacturer warranty. We also offer extended protection plans.";
 
-        // --- TECHNICAL HELP ---
         if (contains(["lag", "slow", "fps"]))
             return "Lag is the enemy! Check your internet connection, or try lowering your graphics settings if on PC.";
         if (contains(["install", "download"]))
             return "If a disc won't install, check for scratches. If a digital download is stuck, try restarting your router.";
 
-        // --- GAMING CULTURE / EASTER EGGS ---
         if (contains(["best game", "recommend"]))
             return "Subjective! But 'The Witcher 3', 'Red Dead 2', and 'Baldur\'s Gate 3' are must-plays.";
         if (contains(["cake"]))
@@ -118,7 +107,6 @@ const ChatBot = () => {
         if (contains(["noob", "n00b"]))
             return "Hey, we were all level 1 once. Keep practicing! 💪";
 
-        // --- FALLBACK ---
         return "My dialogue tree doesn't have a response for that yet. 🌲 Try asking about 'Shipping', 'PS5', 'Zelda', or 'Returns'.";
     };
 
@@ -130,8 +118,7 @@ const ChatBot = () => {
         setInputValue("");
         setIsTyping(true);
 
-        // Simulate "thinking" time based on message length
-        const typingTime = Math.random() * 500 + 800; // 0.8s to 1.3s
+        const typingTime = Math.random() * 500 + 800; 
 
         setTimeout(() => {
             const botResponseText = getBotResponse(newUserMsg.text);
@@ -148,11 +135,11 @@ const ChatBot = () => {
     return (
         <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end font-sans">
 
-            {/* CHAT WINDOW */}
+            {}
             {isOpen && (
                 <div className="mb-4 w-[350px] max-w-[90vw] bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200 animate-fade-in-up flex flex-col h-[500px]">
 
-                    {/* Header */}
+                    {}
                     <div className="bg-gradient-to-r from-red-600 to-red-500 p-4 flex justify-between items-center text-white shadow-md">
                         <div className="flex items-center gap-3">
                             <div className="bg-white/20 p-2 rounded-full backdrop-blur-sm">
@@ -171,7 +158,7 @@ const ChatBot = () => {
                         </button>
                     </div>
 
-                    {/* Messages Area */}
+                    {}
                     <div className="flex-1 p-4 overflow-y-auto bg-gray-50 space-y-4 scrollbar-thin scrollbar-thumb-gray-300">
                         {messages.map((msg) => (
                             <div
@@ -189,7 +176,7 @@ const ChatBot = () => {
                             </div>
                         ))}
 
-                        {/* Typing Indicator */}
+                        {}
                         {isTyping && (
                             <div className="flex justify-start">
                                 <div className="bg-white border border-gray-100 p-4 rounded-2xl rounded-bl-none flex gap-1.5 shadow-sm">
@@ -202,7 +189,7 @@ const ChatBot = () => {
                         <div ref={messagesEndRef} />
                     </div>
 
-                    {/* Input Area */}
+                    {}
                     <div className="p-3 bg-white border-t border-gray-100 flex gap-2 items-center">
                         <input
                             type="text"
@@ -226,7 +213,7 @@ const ChatBot = () => {
                 </div>
             )}
 
-            {/* TOGGLE BUTTON */}
+            {}
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="group w-14 h-14 bg-red-600 text-white rounded-full shadow-[0_4px_14px_0_rgba(220,38,38,0.39)] flex items-center justify-center text-2xl hover:scale-105 hover:bg-red-700 transition-all duration-300"

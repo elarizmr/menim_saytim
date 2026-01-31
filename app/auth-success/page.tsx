@@ -9,14 +9,14 @@ const AuthHandler = () => {
     const searchParams = useSearchParams();
 
     useEffect(() => {
-        // 1. URL-dən tokeni oxuyuruq
+        
         const token = searchParams.get('token');
 
         if (token) {
-            // 2. Token varsa, gedib User məlumatlarını gətiririk
+            
             getUserData(token);
         } else {
-            // Token yoxdursa, loginə qaytar
+            
             router.push('/login');
         }
     }, [router, searchParams]);
@@ -25,29 +25,25 @@ const AuthHandler = () => {
         try {
             const config = {
                 headers: {
-                    Authorization: `Bearer ${token}`, // Tokeni başlığa qoyuruq
+                    Authorization: `Bearer ${token}`, 
                 },
             };
 
-            // DİQQƏT: Backend-də profil məlumatını verən yol (adətən belə olur)
             const { data } = await axios.get('http://localhost:5001/api/users/me', config);
 
-            // 3. User məlumatını hazırlayırıq (Login-dəki kimi)
             const userInfo = {
-                ...data,      // _id, name, email
-                token: token  // tokeni də əlavə edirik
+                ...data,      
+                token: token  
             };
 
-            // 4. LocalStorage-ə yazırıq
             localStorage.setItem('userInfo', JSON.stringify(userInfo));
 
-            // 5. Ana səhifəyə atırıq
             alert(`Xoş gəldin, ${data.name}!`);
             router.push('/');
 
         } catch (error) {
             console.error("User məlumatı alına bilmədi:", error);
-            // Xəta olsa loginə qaytar
+            
             router.push('/login');
         }
     };

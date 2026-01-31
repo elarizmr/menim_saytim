@@ -27,7 +27,7 @@ export default function ContactForm() {
         })
         .catch((error) => {
           console.error('Error:', error);
-          // Даем более универсальное сообщение об ошибке
+          
           setStatusMessage('❌ ' + (error?.text || error?.message || 'An unknown error occurred.'));
         })
         .finally(() => {
@@ -40,9 +40,7 @@ export default function ContactForm() {
     <div className=" py-20 px-4 sm:px-6 lg:py-24 lg:px-8">
       <div className="max-w-7xl mx-auto">
 
-
         <div className="grid lg:grid-cols-2 gap-16 items-start">
-
 
           <div className="opacity-0 animate-fadeInUp animation-delay-400">
             <div className="bg-none w-130 relative">

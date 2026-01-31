@@ -23,7 +23,7 @@ const ArcadePage = () => {
 
   return (
     <div className='bg-black text-white pb-20'>
-      {/* Hero Section */}
+      {}
       <div className='relative w-full border-b border-white h-80 overflow-hidden'>
         <img 
           className='w-full h-full object-cover brightness-30' 
@@ -31,7 +31,7 @@ const ArcadePage = () => {
           alt="" 
         />
         
-        {/* Overlay Content */}
+        {}
         <div className='absolute inset-0 flex items-center justify-start px-8 md:px-20'>
           <div className='flex flex-col gap-4 md:gap-8'>
             <button 
@@ -53,7 +53,7 @@ const ArcadePage = () => {
         </div>
       </div>
      
-      {/* Meta Information */}
+      {}
       <div className="px-8 md:px-20">
         <ul className='flex flex-wrap gap-4 md:gap-6 mt-10 text-xs md:text-sm font-bold'>
           <li>WorkDo</li>
@@ -69,10 +69,10 @@ const ArcadePage = () => {
         </p>
       </div>
 
-      {/* Image and Card Section */}
+      {}
       <div className='mt-10 px-8 md:px-20'>
         <div className='flex flex-col lg:flex-row gap-8'>
-          {/* Main Image */}
+          {}
           <div className='flex-1'>
             <img 
               className='w-full h-auto border border-amber-800 rounded-lg' 
@@ -81,7 +81,7 @@ const ArcadePage = () => {
             />
           </div>
           
-          {/* Card */}
+          {}
           <div className='lg:w-80 flex-shrink-0'>
             {cards.map((card, index) => (
               <div 
@@ -105,7 +105,7 @@ const ArcadePage = () => {
         </div>
       </div>
 
-      {/* Text Content */}
+      {}
       <div className="px-8 md:px-20">
         <h1 className='text-lg md:text-xl font-bold mt-8 leading-relaxed'>
           Many arcade games have short levels, simple and intuitive control schemes, and rapidly increasing 

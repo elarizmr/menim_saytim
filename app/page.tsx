@@ -6,7 +6,6 @@ import ShopPartBottom from './home/ShopPartBottom';
 import Reviews from './home/Reviews';
 import BlogPart from './home/BlogPart';
 
-
 export default function Home() {
   return (
     <div>

@@ -12,7 +12,7 @@ export function useAuth() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Load from localStorage on mount
+        
         const storedToken = localStorage.getItem('token');
         const storedUser = localStorage.getItem('user');
 
