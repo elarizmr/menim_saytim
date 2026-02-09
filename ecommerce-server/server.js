@@ -25,12 +25,26 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(passport.initialize()); 
 
+// Root route - BU ƏLAVƏ EDİN ⬇️
+app.get('/', (req, res) => {
+    res.json({ 
+        message: 'Game Workdo Backend API is running!',
+        status: 'success',
+        endpoints: {
+            users: '/api/users',
+            products: '/api/products',
+            cart: '/api/cart',
+            orders: '/api/orders',
+            auth: '/api/auth'
+        }
+    });
+});
+
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/products', require('./routes/productRoutes'));
 app.use('/api/cart', require('./routes/cartRoutes'));
 app.use('/api/upload', require('./routes/uploadRoutes')); 
 app.use('/api/orders', require('./routes/orderRoutes')); 
-
 app.use('/api/auth', require('./routes/authRoutes')); 
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
