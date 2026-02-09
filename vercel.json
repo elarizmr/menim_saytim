@@ -13,11 +13,11 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "ecommerce-server/server.js"
+      "destination": "/ecommerce-server/server.js"
     },
     {
       "source": "/(.*)",
-      "destination": "front/$1"
+      "destination": "/front/$1"
     }
   ]
 }
